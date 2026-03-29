@@ -1,6 +1,6 @@
 # dime-ops
 
-Command center for the [Acts of Defiance](https://github.com/ActsOfDefiance) org. Canonical home for architecture specs, decisions, project memory, and development tooling.
+Command center for dime, the Dime Content Management System. Canonical home for architecture specs, decisions, project memory, and development tooling.
 
 ## Requirements
 
@@ -34,7 +34,7 @@ ActsOfDefiance/
 
 ### 2. Install prerequisites
 
-macOS:
+Linux ([Homebrew](https://docs.brew.sh/Homebrew-on-Linux)) and macOS ([Homebrew](https://brew.sh)):
 
 ```bash
 brew install just uv bun direnv postgresql redis
@@ -116,5 +116,5 @@ dime-ops/
 | [dime-ops](https://github.com/ActsOfDefiance/dime-ops) | This repo — command center |
 | [dime](https://github.com/ActsOfDefiance/dime) | Python backend: agents, API, pipeline |
 | [dime-ui](https://github.com/ActsOfDefiance/dime-ui) | Svelte frontend |
-| [acts-of-defiance](https://github.com/ActsOfDefiance/acts-of-defiance) | Hugo/Astro publication site |
-| [compendium](https://github.com/ActsOfDefiance/compendium) | Canonical article content (GPLv3) |
+| [acts-of-defiance](https://github.com/ActsOfDefiance/acts-of-defiance) | Example publishing target (Hugo/Astro) — optional, for reference |
+| [compendium](https://github.com/ActsOfDefiance/compendium) | Document store for article content (GPLv3) — optional, for reference |
