@@ -15,11 +15,21 @@ warn() { echo "  ⚑ $1"; echo "    note: $2"; ((warn++)) || true; }
 echo ""
 echo "── Repos ──"
 
-for repo in dime dime-ui acts-of-defiance compendium; do
+# Required repos (fail if missing)
+for repo in dime acts-of-defiance compendium; do
   if [ -d "$PARENT_DIR/$repo" ]; then
     ok "$repo present at $PARENT_DIR/$repo"
   else
     fail "$repo not found" "clone or create $repo at $PARENT_DIR/$repo"
+  fi
+done
+
+# Optional repos (warn if missing — may not be created yet)
+for repo in dime-ui; do
+  if [ -d "$PARENT_DIR/$repo" ]; then
+    ok "$repo present at $PARENT_DIR/$repo"
+  else
+    warn "$repo not found" "create when ready: gh repo create ActsOfDefiance/$repo --public"
   fi
 done
 
