@@ -365,6 +365,8 @@ gh api repos/ActsOfDefiance/dime/pulls/{PR_NUMBER}/reviews \
   --jq '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body)\n"'
 gh api repos/ActsOfDefiance/dime/pulls/{PR_NUMBER}/comments \
   --jq '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/dime/issues/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [comment] ---\n\(.body)\n"'
 ```
 
 Create an action plan. Ask: "Approve this plan to address review comments? (yes/no/changes needed)"

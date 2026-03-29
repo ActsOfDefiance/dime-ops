@@ -295,9 +295,27 @@ bash .claude/tools/pr-poll.sh ActsOfDefiance/dime-ui {PR_NUMBER}
 - **APPROVED**: Skip to Step 13.
 - **CHANGES_REQUESTED**: Continue to 12c.
 
-#### 12c. Read feedback, create action plan, get approval
+#### 12c. Read and summarize all new feedback
 
-#### 12d. Implement fixes, re-run gates, push, resolve threads, back to 12a
+```bash
+gh api repos/ActsOfDefiance/dime-ui/pulls/{PR_NUMBER}/reviews \
+  --jq '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/dime-ui/pulls/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/dime-ui/issues/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [comment] ---\n\(.body)\n"'
+```
+
+Create an action plan. Ask: "Approve this plan to address review comments? (yes/no/changes needed)"
+**DO NOT implement until approved.**
+
+#### 12d. Implement fixes, re-run quality gates, push
+
+1. Implement fixes
+2. Re-run quality gates (lint, format, check, tests)
+3. Commit and push
+4. Resolve review threads via GraphQL
+5. Go back to Step 12a
 
 ### Step 13: Merge Pull Request
 

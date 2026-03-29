@@ -28,7 +28,7 @@ else
 fi
 
 compute_hash() {
-  $HASH_CMD | sed 's/.*\([0-9a-f]\{32\}\).*/\1/'
+  $HASH_CMD | awk '{print $1}'
 }
 
 # Initialize to zero so any pre-existing activity is detected on the first poll

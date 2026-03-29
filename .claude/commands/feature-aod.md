@@ -192,7 +192,33 @@ Ask: "Approve this commit? (yes/no/edit)"
 bash .claude/tools/pr-poll.sh ActsOfDefiance/acts-of-defiance {PR_NUMBER}
 ```
 
-#### 10b-d. Same review cycle as other workflows
+#### 10b. Check for approval or changes requested
+
+- **APPROVED**: Skip to Step 11 (merge).
+- **CHANGES_REQUESTED** or new feedback: Continue to 10c.
+- **DISMISSED** or no actionable feedback: Resume polling (back to 10a).
+
+#### 10c. Read and summarize all new feedback
+
+```bash
+gh api repos/ActsOfDefiance/acts-of-defiance/pulls/{PR_NUMBER}/reviews \
+  --jq '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/acts-of-defiance/pulls/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/acts-of-defiance/issues/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [comment] ---\n\(.body)\n"'
+```
+
+Create an action plan. Ask: "Approve this plan to address review comments? (yes/no/changes needed)"
+**DO NOT implement until approved.**
+
+#### 10d. Implement fixes, rebuild, push
+
+1. Implement fixes
+2. Re-run `hugo` build — must succeed
+3. Commit and push
+4. Resolve review threads via GraphQL
+5. Go back to Step 10a
 
 ### Step 11: Merge & Checkout develop
 
