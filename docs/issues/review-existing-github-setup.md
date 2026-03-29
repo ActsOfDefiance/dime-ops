@@ -17,7 +17,7 @@ There is an existing GitHub organization at https://github.com/ActsOfDefiance wi
 | `ActsOfDefiance/compendium` | `main` | Keep as-is |
 | `ActsOfDefiance/website` | `main` | Renamed → `acts-of-defiance` ✓ |
 
-**Still to create:** `dime-ops`, `dime-ui`
+**Still to create:** `dime-ui`
 
 ### Branch protection
 - `dime/main` has required status check (`test`) — no Gitflow protection on `develop` yet

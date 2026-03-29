@@ -14,21 +14,21 @@ Establish the multi-repo structure, project management home (dime-ops), and a cl
 - [ ] [rotate-exposed-api-key.md](rotate-exposed-api-key.md) — **CRITICAL**
 
 ### GitHub audit
-- [ ] [review-existing-github-setup.md](review-existing-github-setup.md) — understand current state before creating anything
+- [x] [review-existing-github-setup.md](review-existing-github-setup.md) — understand current state before creating anything
 
 ### dime-ops creation
-- [ ] [create-dime-ops-repo.md](create-dime-ops-repo.md) — canonical context home; blocks multi-repo migration
+- [x] [create-dime-ops-repo.md](create-dime-ops-repo.md) — canonical context home; blocks multi-repo migration
 
 ### Multi-repo migration
-- [ ] [multi-repo-migration.md](multi-repo-migration.md) — push dime, acts-of-defiance, compendium to GitHub; set up symlinks
-- [ ] [fix-readme-merge-conflicts.md](fix-readme-merge-conflicts.md) — clean up dime README before first push
+- [x] [multi-repo-migration.md](multi-repo-migration.md) — push dime, acts-of-defiance, compendium to GitHub; set up symlinks
+- [x] [fix-readme-merge-conflicts.md](fix-readme-merge-conflicts.md) — clean up dime README before first push
 
 ### Repo housekeeping (can run in parallel with dime-ops)
-- [ ] [rewrite-dime-readme.md](rewrite-dime-readme.md)
-- [ ] [rewrite-dime-claude-md.md](rewrite-dime-claude-md.md)
+- [x] [rewrite-dime-readme.md](rewrite-dime-readme.md)
+- [x] [rewrite-dime-claude-md.md](rewrite-dime-claude-md.md)
 
 ### Developer tooling
-- [ ] [create-layer-skills.md](create-layer-skills.md) — Claude Code skills for dime, dime-ui, acts-of-defiance layers; do before active implementation begins
+- [x] [create-layer-skills.md](create-layer-skills.md) — Claude Code skills for dime, dime-ui, acts-of-defiance layers; do before active implementation begins
 
 ## Order
 

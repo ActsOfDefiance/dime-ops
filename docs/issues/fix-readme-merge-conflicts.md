@@ -11,10 +11,10 @@
 
 ## Actions
 
-- [ ] Open `dime/README.md` and inspect the conflict markers
-- [ ] Resolve conflicts — if rewrite-dime-readme ticket is being worked concurrently, just accept that version wholesale
-- [ ] Verify no other files in dime/ have conflict markers: `git diff --check`
-- [ ] Stage and commit the resolution
+- [x] Open `dime/README.md` and inspect the conflict markers
+- [x] Resolve conflicts — reset local develop to origin/develop (remote had strictly more content, no unique local work)
+- [x] Verify no other files in dime/ have conflict markers: `git diff --check`
+- [x] No commit needed — reset aligned histories
 
 ## Notes
 

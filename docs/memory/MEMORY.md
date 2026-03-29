@@ -6,3 +6,4 @@
 - [Collaboration style](feedback_collaboration.md) — when user asks to discuss, actually discuss — do NOT skip to writing decisions
 - [Issues workflow](feedback_issues_workflow.md) — local markdown for planning, sync to GitHub when ready
 - [Local config](local_config.md) — GCP project ID and machine-local values; **gitignored in dime-ops, never committed** to work
+- [Licensing policy](project_licensing.md) — GPLv3 for all repos except art/images

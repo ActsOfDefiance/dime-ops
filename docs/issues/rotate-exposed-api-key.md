@@ -21,7 +21,7 @@ Multiple live secrets are present in `dime/.env` and `dime/.envrc`. If either fi
 - [x] Deleted old exposed key from GCP
 
 ### 2. Rotate Logfire token
-- [ ] **MANUAL** — log in to logfire.pydantic.dev → Settings → API Tokens → revoke `pylf_v1_us_jdQt3W...` → create new token → update `.envrc` line 53
+- [x] **MANUAL** — log in to logfire.pydantic.dev → Settings → API Tokens → revoke `pylf_v1_us_jdQt3W...` → create new token → update `.envrc` line 53
 
 ### 3. Update local secrets
 - [x] Updated `GOOGLE_ADK_API_KEY` in `.envrc` with new key
@@ -44,7 +44,7 @@ Multiple live secrets are present in `dime/.env` and `dime/.envrc`. If either fi
 - [x] Updated `dime/CLAUDE.md` with secrets convention
 
 ## Remaining
-- [ ] Rotate Logfire token manually (step 2)
+- [x] Rotate Logfire token manually (step 2)
 - [ ] Pre-commit hook (epic-production)
 
 ## Sync to GitHub: yes — but complete Logfire rotation BEFORE the first push
