@@ -2,6 +2,10 @@
 
 This is the org-level Claude context. Open Claude from this directory for cross-repo work (architecture, decisions, epics). For focused implementation work, open Claude from the relevant repo.
 
+## Session start
+
+Read `docs/memory/MEMORY.md` at the start of every session to load project context, user preferences, and working conventions.
+
 ## What we're building
 
 **dime** (Dime Store Novel) — an AI agent-driven publishing system. It researches topics, composes articles, generates graphics, and publishes to a static site via a pluggable adapter pattern.
