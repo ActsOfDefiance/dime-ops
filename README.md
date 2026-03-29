@@ -34,16 +34,13 @@ ActsOfDefiance/
 
 ### 2. Install prerequisites
 
-```bash
-# macOS
-brew install just uv bun direnv postgresql redis
+macOS:
 
-# Linux — see each tool's install docs:
-# just: https://just.systems/man/en/installation.html
-# uv: https://docs.astral.sh/uv/
-# bun: https://bun.sh
-# direnv: https://direnv.net
+```bash
+brew install just uv bun direnv postgresql redis
 ```
+
+> For other distros or package managers, see each tool's install docs ([just](https://just.systems/man/en/installation.html), [uv](https://docs.astral.sh/uv/), [bun](https://bun.sh), [direnv](https://direnv.net)). For Windows, see [S.E.P. fields](https://hitchhikers.fandom.com/wiki/Somebody_Else%27s_Problem_Field).
 
 Start services:
 ```bash
