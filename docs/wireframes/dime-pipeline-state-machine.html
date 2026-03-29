@@ -1,0 +1,301 @@
+<h2>Content Pipeline State Machine</h2>
+<p class="subtitle">Each article moves through these states. Human checkpoints shown in amber. Agent work in blue. Terminal states in green/red.</p>
+
+<style>
+.pipeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 860px;
+  margin: 0 auto;
+}
+.stage {
+  display: flex;
+  gap: 16px;
+  align-items: stretch;
+  position: relative;
+}
+.stage-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40px;
+  flex-shrink: 0;
+}
+.stage-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 16px;
+}
+.stage-line {
+  width: 2px;
+  flex: 1;
+  min-height: 12px;
+  background: #333;
+  margin-top: 4px;
+}
+.stage-body {
+  flex: 1;
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 8px;
+}
+.stage-name {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+.stage-desc {
+  font-size: 12px;
+  color: #aaa;
+  line-height: 1.5;
+}
+.stage-actions {
+  font-size: 11px;
+  margin-top: 6px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.tag {
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+/* Agent states */
+.agent { background: #0d1b3e; border-left: 3px solid #4a90d9; }
+.agent .stage-name { color: #4a90d9; }
+.agent-dot { background: #4a90d9; }
+
+/* Human checkpoint states */
+.human { background: #2a1f0a; border-left: 3px solid #f0a500; }
+.human .stage-name { color: #f0a500; }
+.human-dot { background: #f0a500; }
+
+/* Terminal states */
+.terminal-ok { background: #0a2a14; border-left: 3px solid #4caf50; }
+.terminal-ok .stage-name { color: #4caf50; }
+.ok-dot { background: #4caf50; }
+
+.terminal-err { background: #2a0a0a; border-left: 3px solid #e05555; }
+.terminal-err .stage-name { color: #e05555; }
+.err-dot { background: #e05555; }
+
+/* Queue state */
+.queue { background: #1e1e1e; border-left: 3px solid #777; }
+.queue .stage-name { color: #aaa; }
+.queue-dot { background: #777; }
+
+/* Tag colors */
+.tag-agent { background: #1a3a5c; color: #4a90d9; }
+.tag-human { background: #3a2a0a; color: #f0a500; }
+.tag-system { background: #1a2a1a; color: #4caf50; }
+.tag-edit { background: #2a1a3a; color: #c080ff; }
+
+.legend {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #aaa;
+}
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.parallel-note {
+  background: #1a1a2e;
+  border: 1px dashed #444;
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 8px;
+  margin-left: 56px;
+}
+</style>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#4a90d9"></div> Agent work (background)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f0a500"></div> Human checkpoint (blocks pipeline)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#4caf50"></div> Terminal: success</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#777"></div> Waiting</div>
+</div>
+
+<div class="pipeline">
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot queue-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body queue">
+      <div class="stage-name">queued</div>
+      <div class="stage-desc">Topic submitted (title, brief, tags, target project). Sits in queue until a worker picks it up.</div>
+      <div class="stage-actions">
+        <span class="tag tag-human">human: submit topic</span>
+        <span class="tag tag-system">system: assign priority</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot agent-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body agent">
+      <div class="stage-name">researching</div>
+      <div class="stage-desc">ResearchAgent gathers sources, facts, quotes, citations. Produces structured research notes in markdown. Long-running — progress streamed to UI.</div>
+      <div class="stage-actions">
+        <span class="tag tag-agent">agent: web research</span>
+        <span class="tag tag-agent">agent: source verification</span>
+        <span class="tag tag-system">output: research.md</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot human-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body human">
+      <div class="stage-name">research_review ✋</div>
+      <div class="stage-desc">Human reviews research notes in the right pane. Can approve, reject, or edit inline. Can chat: "find more on X", "remove this source", "add context about Y". Dime re-researches if asked.</div>
+      <div class="stage-actions">
+        <span class="tag tag-human">approve → writing</span>
+        <span class="tag tag-edit">edit inline</span>
+        <span class="tag tag-human">chat: re-research</span>
+        <span class="tag tag-human">reject → queued</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot agent-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body agent">
+      <div class="stage-name">writing</div>
+      <div class="stage-desc">WriterAgent composes the article from approved research. Produces both TLDR and Research sections in the compendium format. Streamed to UI as it writes.</div>
+      <div class="stage-actions">
+        <span class="tag tag-agent">agent: compose TLDR</span>
+        <span class="tag tag-agent">agent: compose research section</span>
+        <span class="tag tag-system">output: article draft.md</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot human-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body human">
+      <div class="stage-name">draft_review ✋</div>
+      <div class="stage-desc">Human reads the full draft in the right pane. Rich text editor — direct editing. Chat interface for guided rewrites: "shorten the intro", "add a section on X", "change the tone".</div>
+      <div class="stage-actions">
+        <span class="tag tag-human">approve → art_briefing</span>
+        <span class="tag tag-edit">edit inline (rich text)</span>
+        <span class="tag tag-human">chat: rewrite sections</span>
+        <span class="tag tag-human">reject → writing</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="parallel-note">⚡ Art briefing runs in parallel with draft_review if desired — the art brief can be generated while the human edits the draft.</div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot agent-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body agent">
+      <div class="stage-name">art_briefing</div>
+      <div class="stage-desc">ArtDirectorAgent reads approved draft and project style guide. Generates image prompts for each required asset (hero, thumbnail, etc.) with dimensions and style tokens from the style guide config.</div>
+      <div class="stage-actions">
+        <span class="tag tag-agent">agent: generate prompts</span>
+        <span class="tag tag-system">consults: style guide config</span>
+        <span class="tag tag-system">output: art_brief.md</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot human-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body human">
+      <div class="stage-name">art_review ✋</div>
+      <div class="stage-desc">Human reviews art brief and prompts. Edits prompts, changes style direction, adjusts crop/size requirements. Right pane shows prompt editor with style guide constraints visible.</div>
+      <div class="stage-actions">
+        <span class="tag tag-human">approve → art_generating</span>
+        <span class="tag tag-edit">edit prompts</span>
+        <span class="tag tag-human">chat: adjust direction</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot agent-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body agent">
+      <div class="stage-name">art_generating</div>
+      <div class="stage-desc">Calls Imagen (or configured provider) with approved prompts. Generates multiple variants per asset. Results appear in the right pane's image studio — the human can iterate here without leaving this state.</div>
+      <div class="stage-actions">
+        <span class="tag tag-agent">agent: call Imagen API</span>
+        <span class="tag tag-human">human: compare variants</span>
+        <span class="tag tag-human">human: iterate prompts</span>
+        <span class="tag tag-human">human: select finals</span>
+        <span class="tag tag-system">output: art/ assets</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot human-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body human">
+      <div class="stage-name">final_review ✋</div>
+      <div class="stage-desc">Complete package: article + all selected images. Human sees the full preview — how it will look published. Can still edit text or swap images. Final approval gates the publish queue.</div>
+      <div class="stage-actions">
+        <span class="tag tag-human">approve → approved</span>
+        <span class="tag tag-edit">last-minute edits</span>
+        <span class="tag tag-human">reject → specific stage</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot queue-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body queue">
+      <div class="stage-name">approved</div>
+      <div class="stage-desc">Canonical markdown written to compendium/. Art written to art/. Sits in publish queue awaiting scheduling or manual trigger.</div>
+      <div class="stage-actions">
+        <span class="tag tag-system">compendium/ written</span>
+        <span class="tag tag-system">art/ written</span>
+        <span class="tag tag-human">human: schedule or publish now</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot agent-dot"></div><div class="stage-line"></div></div>
+    <div class="stage-body agent">
+      <div class="stage-name">publishing</div>
+      <div class="stage-desc">PublishingAdapter receives signal. Copies files to target, triggers build, records publish event (timestamp, target, adapter version) back to PostgreSQL.</div>
+      <div class="stage-actions">
+        <span class="tag tag-system">signal: adapter.publish()</span>
+        <span class="tag tag-system">HugoAdapter: copy + build</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="stage-connector"><div class="stage-dot ok-dot"></div></div>
+    <div class="stage-body terminal-ok">
+      <div class="stage-name">published ✓</div>
+      <div class="stage-desc">Article live. Publish event recorded. Article can be updated (re-enters draft_review) or unpublished. Version history maintained in PostgreSQL.</div>
+      <div class="stage-actions">
+        <span class="tag tag-system">audit log entry</span>
+        <span class="tag tag-human">can update → draft_review</span>
+        <span class="tag tag-human">can unpublish → approved</span>
+      </div>
+    </div>
+  </div>
+
+</div>

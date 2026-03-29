@@ -1,0 +1,102 @@
+<h2>Three Architecture Approaches for Dime</h2>
+<p class="subtitle">Choose the foundation — everything else builds on this decision</p>
+
+<div class="options">
+
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>Structured Monolith + Celery/Redis</h3>
+      <p style="margin-bottom:10px">One Python service with internal module boundaries. FastAPI handles REST + WebSocket. Celery runs ADK agent tasks in the background. Redis is both the Celery broker and the real-time pub/sub channel to the Svelte UI.</p>
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#e0e0e0;padding:10px;border-radius:4px;margin-bottom:8px;line-height:1.6">
+        Svelte UI ←→ FastAPI (REST+WS) ←→ PostgreSQL<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Redis (broker)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Celery Workers (ADK agents)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compendium/ + art/ + signal
+      </div>
+      <div class="pros-cons" style="font-size:12px">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Simplest deployment</li>
+          <li>Fastest to develop locally</li>
+          <li>Redis already in stack</li>
+          <li>Single codebase, easy refactor</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Celery adds operational weight</li>
+          <li>Harder to scale workers independently</li>
+          <li>Redis less suited for complex routing</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>API + Worker Split with RabbitMQ ★ Recommended</h3>
+      <p style="margin-bottom:10px">Two services, one message broker. <strong>dime-api</strong> (FastAPI) handles all UI communication. <strong>dime-worker</strong> (ADK agents) consumes tasks from RabbitMQ and writes results back. Both live in the same repo, separate containers — same machine locally, split to Cloud Run + GKE in production.</p>
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#e0e0e0;padding:10px;border-radius:4px;margin-bottom:8px;line-height:1.6">
+        Svelte UI ←→ dime-api (FastAPI+WS) ←→ PostgreSQL<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RabbitMQ (tasks+events)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dime-worker (ADK agents)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;compendium/ + art/ + signal
+      </div>
+      <div class="pros-cons" style="font-size:12px">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>RabbitMQ is your turf</li>
+          <li>Natural local/cloud split seam</li>
+          <li>Worker can scale independently</li>
+          <li>Priority queues, dead letters, retries</li>
+          <li>Multiple workers in parallel</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Two services to run locally</li>
+          <li>More moving parts than option A</li>
+          <li>RabbitMQ container overhead</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>GCP-Native with Cloud Tasks + Pub/Sub</h3>
+      <p style="margin-bottom:10px">Lean fully into Google Cloud. Cloud Tasks handles scheduling and queueing. Cloud Pub/Sub handles events and real-time updates. ADK workers run as Cloud Run Jobs. No broker to operate yourself.</p>
+      <div style="font-family:monospace;font-size:11px;background:#1a1a2e;color:#e0e0e0;padding:10px;border-radius:4px;margin-bottom:8px;line-height:1.6">
+        Svelte UI ←→ Cloud Run (FastAPI) ←→ Cloud SQL<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cloud Tasks / Cloud Pub/Sub<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↑↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cloud Run Jobs (ADK workers)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GCS / compendium/ + signal
+      </div>
+      <div class="pros-cons" style="font-size:12px">
+        <div class="pros"><h4>Pros</h4><ul>
+          <li>Fully managed, no broker ops</li>
+          <li>Native GCP scaling</li>
+          <li>Tight ADK integration</li>
+          <li>Pay-per-use in production</li>
+        </ul></div>
+        <div class="cons"><h4>Cons</h4><ul>
+          <li>Hard to run locally without emulators</li>
+          <li>Vendor lock-in</li>
+          <li>Local dev experience suffers</li>
+          <li>Overkill until you need scale</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="section" style="margin-top:20px;padding:12px;background:#1e1e2e;border-radius:6px;border-left:3px solid #7c6af7">
+  <p style="margin:0;font-size:13px"><strong>My recommendation: B.</strong> RabbitMQ is already in your mental model, it gives you real queue semantics (priority, routing, dead-letters) that matter for agent pipelines, and the API/worker split is the natural seam you'll need when you go to cloud. Local dev is <code>docker compose up</code> — one extra container is worth the payoff.</p>
+</div>

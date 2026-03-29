@@ -1,0 +1,434 @@
+<h2>Dime UI — Presentation Layer Design</h2>
+<p class="subtitle">Two-pane chat interface. Left: conversation with dime. Right: contextual artifact pane — changes based on pipeline state.</p>
+
+<style>
+.ui-frame {
+  max-width: 960px;
+  margin: 0 auto;
+  border: 1px solid #333;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #0f0f0f;
+}
+.ui-topbar {
+  background: #1a1a1a;
+  border-bottom: 1px solid #2a2a2a;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ui-topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.ui-logo {
+  font-weight: 800;
+  font-size: 14px;
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.ui-project {
+  font-size: 11px;
+  color: #666;
+  font-family: monospace;
+}
+.ui-article-title {
+  font-size: 12px;
+  color: #aaa;
+  font-style: italic;
+}
+.ui-state-badge {
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.state-human { background: #3a2a0a; color: #f0a500; }
+.state-agent { background: #0d1b3e; color: #4a90d9; }
+.ui-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ui-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: #aaa;
+}
+
+.ui-body {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  height: 520px;
+}
+
+/* LEFT PANE - CHAT */
+.chat-pane {
+  border-right: 1px solid #2a2a2a;
+  display: flex;
+  flex-direction: column;
+}
+.chat-history {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.msg {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.msg-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.msg-dime .msg-label { color: #4a90d9; }
+.msg-human .msg-label { color: #888; }
+.msg-dime { align-items: flex-start; }
+.msg-human { align-items: flex-end; }
+.msg-bubble {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.6;
+  max-width: 92%;
+}
+.msg-dime .msg-bubble {
+  background: #1a2a3a;
+  color: #ccc;
+  border-radius: 2px 8px 8px 8px;
+}
+.msg-human .msg-bubble {
+  background: #1e1e1e;
+  color: #aaa;
+  border-radius: 8px 2px 8px 8px;
+}
+.msg-action {
+  background: #1a2a1a;
+  border: 1px solid #2a3a2a;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 11px;
+  color: #4caf50;
+  font-family: monospace;
+}
+.chat-input-area {
+  border-top: 1px solid #2a2a2a;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.chat-actions {
+  display: flex;
+  gap: 6px;
+}
+.chat-btn {
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: none;
+}
+.btn-approve { background: #1a3a1a; color: #4caf50; }
+.btn-reject  { background: #3a1a1a; color: #e05555; }
+.btn-send    { background: #1a2a3a; color: #4a90d9; margin-left: auto; }
+.chat-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.chat-input-box {
+  flex: 1;
+  background: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 7px 10px;
+  font-size: 12px;
+  color: #ccc;
+  outline: none;
+}
+
+/* RIGHT PANE - CONTEXTUAL */
+.context-pane {
+  display: flex;
+  flex-direction: column;
+}
+.context-tabs {
+  display: flex;
+  border-bottom: 1px solid #2a2a2a;
+  background: #141414;
+}
+.ctab {
+  padding: 8px 14px;
+  font-size: 11px;
+  color: #555;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+.ctab.active {
+  color: #ccc;
+  border-bottom-color: #4a90d9;
+}
+.context-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #bbb;
+}
+
+/* Research notes mockup */
+.research-section { margin-bottom: 16px; }
+.research-section h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #4a90d9;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+.source-item {
+  background: #1a1a1a;
+  border-left: 2px solid #333;
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  border-radius: 0 4px 4px 0;
+}
+.source-title { color: #ccc; font-weight: 600; }
+.source-url { color: #555; font-size: 10px; font-family: monospace; }
+.source-excerpt { color: #888; font-size: 11px; margin-top: 3px; }
+
+.inline-edit-hint {
+  font-size: 10px;
+  color: #444;
+  text-align: right;
+  padding: 4px 8px;
+  border-top: 1px solid #1a1a1a;
+}
+
+/* Streaming indicator */
+.streaming {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #4a90d9;
+  padding: 4px 0;
+}
+.streaming-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4a90d9;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.section-divider {
+  max-width: 960px;
+  margin: 20px auto 12px;
+  font-size: 11px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+</style>
+
+<!-- MOCKUP 1: research_review state -->
+<div class="section-label" style="margin-bottom:10px">State: research_review — Human is reviewing research notes</div>
+<div class="ui-frame">
+  <div class="ui-topbar">
+    <div class="ui-topbar-left">
+      <span class="ui-logo">dime</span>
+      <span class="ui-project">acts-of-defiance /</span>
+      <span class="ui-article-title">Murray Bookchin</span>
+    </div>
+    <span class="ui-state-badge state-human">research review ✋</span>
+    <div class="ui-topbar-right">
+      <div class="ui-avatar">V</div>
+    </div>
+  </div>
+  <div class="ui-body">
+
+    <!-- LEFT: CHAT -->
+    <div class="chat-pane">
+      <div class="chat-history">
+        <div class="msg msg-dime">
+          <div class="msg-label">dime</div>
+          <div class="msg-bubble">Research complete for <strong>Murray Bookchin</strong>. I found 14 sources across his major works, contemporary criticism, and the libertarian municipalism movement. Review the notes in the right pane.</div>
+        </div>
+        <div class="msg msg-dime">
+          <div class="msg-bubble msg-action">✓ research.md written → compendium/drafts/murray_bookchin/</div>
+        </div>
+        <div class="msg msg-human">
+          <div class="msg-label">you</div>
+          <div class="msg-bubble">Find more on the Vermont connection — his time in Burlington is important context</div>
+        </div>
+        <div class="msg msg-dime">
+          <div class="msg-label">dime</div>
+          <div class="msg-bubble">On it — researching Burlington city politics, Bookchin's influence on Bernie Sanders, and the Institute for Social Ecology.</div>
+        </div>
+        <div class="streaming"><div class="streaming-dot"></div> Searching...</div>
+      </div>
+      <div class="chat-input-area">
+        <div class="chat-actions">
+          <button class="chat-btn btn-approve">✓ Approve research</button>
+          <button class="chat-btn btn-reject">✗ Start over</button>
+        </div>
+        <div class="chat-input-row">
+          <input class="chat-input-box" placeholder="Ask dime to add, remove, or refocus research..." />
+          <button class="chat-btn btn-send">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: RESEARCH NOTES -->
+    <div class="context-pane">
+      <div class="context-tabs">
+        <div class="ctab active">Research Notes</div>
+        <div class="ctab">Sources (14)</div>
+        <div class="ctab">Raw .md</div>
+      </div>
+      <div class="context-body">
+        <div class="research-section">
+          <h4>Key Themes</h4>
+          <p>Bookchin's <em>libertarian municipalism</em> posits that the municipality — not the nation-state — is the site of genuine democratic transformation. His concept of <em>social ecology</em> links environmental destruction directly to social hierarchy...</p>
+        </div>
+        <div class="research-section">
+          <h4>Primary Sources</h4>
+          <div class="source-item">
+            <div class="source-title">The Ecology of Freedom (1982)</div>
+            <div class="source-url">Murray Bookchin, Cheshire Books</div>
+            <div class="source-excerpt">Foundational text linking ecological crisis to domination hierarchies. Central to the TLDR framing.</div>
+          </div>
+          <div class="source-item">
+            <div class="source-title">Remaking Society (1990)</div>
+            <div class="source-url">Murray Bookchin, South End Press</div>
+            <div class="source-excerpt">More accessible companion to Ecology of Freedom. Good for TLDR section.</div>
+          </div>
+        </div>
+        <div class="research-section">
+          <h4>Critical Perspectives</h4>
+          <p>David Watson's critique in <em>Against the Megamachine</em> challenges Bookchin's rationalist framework. Worth including for balance...</p>
+        </div>
+      </div>
+      <div class="inline-edit-hint">Click any section to edit inline · dime tracks your changes</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MOCKUP 2: art_generating state -->
+<div class="section-label" style="margin: 20px auto 10px; max-width:960px; display:block">State: art_generating — Image studio, iterating on hero image</div>
+<div class="ui-frame">
+  <div class="ui-topbar">
+    <div class="ui-topbar-left">
+      <span class="ui-logo">dime</span>
+      <span class="ui-project">acts-of-defiance /</span>
+      <span class="ui-article-title">Murray Bookchin</span>
+    </div>
+    <span class="ui-state-badge state-human">art generating</span>
+    <div class="ui-topbar-right">
+      <div class="ui-avatar">V</div>
+    </div>
+  </div>
+  <div class="ui-body">
+
+    <!-- LEFT: CHAT -->
+    <div class="chat-pane">
+      <div class="chat-history">
+        <div class="msg msg-dime">
+          <div class="msg-label">dime</div>
+          <div class="msg-bubble">Generated 3 variants for the <strong>hero</strong> slot (1200×628). The style guide calls for high contrast editorial illustration. Take a look — you can iterate on the prompt or generate more.</div>
+        </div>
+        <div class="msg msg-human">
+          <div class="msg-label">you</div>
+          <div class="msg-bubble">I like v2 but make it feel more like a woodcut print, less digital</div>
+        </div>
+        <div class="msg msg-dime">
+          <div class="msg-label">dime</div>
+          <div class="msg-bubble">Updated prompt: added "woodcut print, linocut aesthetic, coarse grain texture, hand-printed feel." Generating 3 new variants.</div>
+        </div>
+        <div class="msg msg-dime">
+          <div class="msg-bubble msg-action">⟳ Generating variants 4–6...</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <div class="chat-input-row">
+          <input class="chat-input-box" placeholder="Describe changes to the image direction..." />
+          <button class="chat-btn btn-send">Send</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: IMAGE STUDIO -->
+    <div class="context-pane">
+      <div class="context-tabs">
+        <div class="ctab active">Hero (1200×628)</div>
+        <div class="ctab">Thumbnail (400×400)</div>
+        <div class="ctab">OG Image</div>
+        <div class="ctab">Prompt</div>
+      </div>
+      <div class="context-body" style="padding:12px">
+        <div style="font-size:10px;color:#555;margin-bottom:8px;font-family:monospace">"Bold editorial illustration of Murray Bookchin, woodcut print aesthetic, red and black palette, coarse grain texture, libertarian municipalism symbolism"</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+          <div style="background:#1a1a1a;border-radius:4px;overflow:hidden;border:2px solid #333">
+            <div style="height:80px;background:linear-gradient(135deg,#1a0a0a,#2a1a1a);display:flex;align-items:center;justify-content:center;font-size:10px;color:#555">v1</div>
+            <div style="padding:4px 6px;font-size:10px;color:#666">Variant 1</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:4px;overflow:hidden;border:2px solid #f0a500">
+            <div style="height:80px;background:linear-gradient(135deg,#2a0a0a,#1a0a2a);display:flex;align-items:center;justify-content:center;font-size:10px;color:#f0a500">v2 ★</div>
+            <div style="padding:4px 6px;font-size:10px;color:#f0a500">Selected</div>
+          </div>
+          <div style="background:#1a1a1a;border-radius:4px;overflow:hidden;border:2px solid #333">
+            <div style="height:80px;background:linear-gradient(135deg,#0a1a0a,#1a2a0a);display:flex;align-items:center;justify-content:center;font-size:10px;color:#555">v3</div>
+            <div style="padding:4px 6px;font-size:10px;color:#666">Variant 3</div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:#444;margin-bottom:8px">Generating new variants with woodcut style...</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+          <div style="background:#111;border:1px dashed #2a2a2a;border-radius:4px;height:96px;display:flex;align-items:center;justify-content:center">
+            <div class="streaming"><div class="streaming-dot"></div></div>
+          </div>
+          <div style="background:#111;border:1px dashed #2a2a2a;border-radius:4px;height:96px;display:flex;align-items:center;justify-content:center">
+            <div class="streaming"><div class="streaming-dot"></div></div>
+          </div>
+          <div style="background:#111;border:1px dashed #2a2a2a;border-radius:4px;height:96px;display:flex;align-items:center;justify-content:center">
+            <div class="streaming"><div class="streaming-dot"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div style="max-width:960px;margin:16px auto 0;background:#1a1a2e;border-radius:6px;padding:12px 16px;font-size:12px;color:#888">
+  <strong style="color:#ccc">API contract:</strong> The Svelte frontend never imports dime internals. It speaks REST + WebSocket only. The right pane's content type is determined by the <code>article.state</code> field returned from the API — the frontend switches pane components based on state. New pipeline states = new pane components, zero backend changes required.
+</div>

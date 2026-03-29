@@ -1,0 +1,261 @@
+<h2>Dime Data Model</h2>
+<p class="subtitle">PostgreSQL schema. Markdown files on disk are the canonical source for content — the DB tracks state, versions, metadata, and events.</p>
+
+<style>
+.erd {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.table {
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #333;
+  font-size: 11px;
+}
+.table-header {
+  padding: 7px 12px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.table-body {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.field-name {
+  color: #ddd;
+  font-family: monospace;
+}
+.field-name.pk { color: #f0a500; font-weight: 700; }
+.field-name.fk { color: #4a90d9; }
+.field-type {
+  color: #666;
+  font-family: monospace;
+  font-size: 10px;
+  white-space: nowrap;
+}
+.field-note {
+  color: #555;
+  font-size: 10px;
+  font-style: italic;
+}
+.divider { border-top: 1px solid #222; margin: 4px 0; }
+
+/* Table color themes */
+.t-core .table-header { background: #1a2a3a; color: #4a90d9; }
+.t-core { border-color: #2a3a4a; }
+
+.t-content .table-header { background: #1a2a1a; color: #4caf50; }
+.t-content { border-color: #2a3a2a; }
+
+.t-art .table-header { background: #2a1a2a; color: #c080ff; }
+.t-art { border-color: #3a2a3a; }
+
+.t-publish .table-header { background: #2a2a1a; color: #f0c050; }
+.t-publish { border-color: #3a3a2a; }
+
+.t-user .table-header { background: #2a1a1a; color: #e05555; }
+.t-user { border-color: #3a2a2a; }
+
+.t-system .table-header { background: #1e1e1e; color: #888; }
+.t-system { border-color: #333; }
+
+.relations {
+  max-width: 960px;
+  margin: 20px auto 0;
+  background: #1a1a1a;
+  border-radius: 6px;
+  padding: 14px 16px;
+  font-size: 11px;
+  color: #999;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 24px;
+}
+.rel { display: flex; gap: 6px; align-items: center; }
+.rel-arrow { color: #444; }
+.rel-fk { color: #4a90d9; font-family: monospace; }
+.rel-target { color: #aaa; font-family: monospace; }
+.rel-label { color: #555; }
+
+.section-label {
+  grid-column: 1 / -1;
+  font-weight: 700;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 10px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #222;
+}
+</style>
+
+<div class="erd">
+
+  <!-- PROJECT -->
+  <div class="table t-core">
+    <div class="table-header">project</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name">name</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">slug</span><span class="field-type">text unique</span></div>
+      <div class="field"><span class="field-name">style_guide</span><span class="field-type">jsonb</span></div>
+      <div class="field"><span class="field-name fk">workflow_config_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name fk">default_adapter</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">created_at</span><span class="field-type">timestamptz</span></div>
+      <div class="divider"></div>
+      <div class="field-note">style_guide: {image_slots, style_tokens, palette}</div>
+    </div>
+  </div>
+
+  <!-- ARTICLE -->
+  <div class="table t-core">
+    <div class="table-header">article</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name fk">project_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">title</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">slug</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">state</span><span class="field-type">enum</span></div>
+      <div class="field"><span class="field-name">topic_brief</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">tags</span><span class="field-type">text[]</span></div>
+      <div class="field"><span class="field-name fk">assigned_to</span><span class="field-type">uuid fk null</span></div>
+      <div class="field"><span class="field-name fk">current_draft_id</span><span class="field-type">uuid fk null</span></div>
+      <div class="field"><span class="field-name">created_at</span><span class="field-type">timestamptz</span></div>
+      <div class="field"><span class="field-name">published_at</span><span class="field-type">timestamptz null</span></div>
+      <div class="divider"></div>
+      <div class="field-note">state: queued|researching|research_review|writing|draft_review|art_briefing|art_review|art_generating|final_review|approved|publishing|published</div>
+    </div>
+  </div>
+
+  <!-- ARTICLE VERSION -->
+  <div class="table t-content">
+    <div class="table-header">article_version</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name fk">article_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">version_number</span><span class="field-type">int</span></div>
+      <div class="field"><span class="field-name">content</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">frontmatter</span><span class="field-type">jsonb</span></div>
+      <div class="field"><span class="field-name">content_type</span><span class="field-type">enum</span></div>
+      <div class="field"><span class="field-name fk">created_by</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">note</span><span class="field-type">text null</span></div>
+      <div class="field"><span class="field-name">created_at</span><span class="field-type">timestamptz</span></div>
+      <div class="divider"></div>
+      <div class="field-note">content_type: research|draft|final<br>content: full markdown blob</div>
+    </div>
+  </div>
+
+  <!-- IMAGE SLOT -->
+  <div class="table t-art">
+    <div class="table-header">image_slot</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name fk">article_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">slot_name</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">width</span><span class="field-type">int</span></div>
+      <div class="field"><span class="field-name">height</span><span class="field-type">int</span></div>
+      <div class="field"><span class="field-name">format</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">approved_prompt</span><span class="field-type">text null</span></div>
+      <div class="field"><span class="field-name fk">selected_variant_id</span><span class="field-type">uuid fk null</span></div>
+      <div class="divider"></div>
+      <div class="field-note">slot_name: hero|thumbnail|og_image|etc<br>Slots seeded from project style_guide</div>
+    </div>
+  </div>
+
+  <!-- IMAGE VARIANT -->
+  <div class="table t-art">
+    <div class="table-header">image_variant</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name fk">slot_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">file_path</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">prompt_used</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">provider</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">generation_meta</span><span class="field-type">jsonb</span></div>
+      <div class="field"><span class="field-name">created_at</span><span class="field-type">timestamptz</span></div>
+      <div class="divider"></div>
+      <div class="field-note">generation_meta: {seed, model, parameters}<br>file_path: relative to art/</div>
+    </div>
+  </div>
+
+  <!-- PUBLISH EVENT -->
+  <div class="table t-publish">
+    <div class="table-header">publish_event</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name fk">article_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name fk">article_version_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">adapter_name</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">adapter_version</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">target_url</span><span class="field-type">text null</span></div>
+      <div class="field"><span class="field-name fk">published_by</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">published_at</span><span class="field-type">timestamptz</span></div>
+      <div class="field"><span class="field-name">metadata</span><span class="field-type">jsonb</span></div>
+    </div>
+  </div>
+
+  <!-- USER -->
+  <div class="table t-user">
+    <div class="table-header">user</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name">email</span><span class="field-type">text unique</span></div>
+      <div class="field"><span class="field-name">display_name</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name fk">role_id</span><span class="field-type">uuid fk</span></div>
+      <div class="field"><span class="field-name">created_at</span><span class="field-type">timestamptz</span></div>
+    </div>
+  </div>
+
+  <!-- ROLE -->
+  <div class="table t-user">
+    <div class="table-header">role</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name">name</span><span class="field-type">text unique</span></div>
+      <div class="field"><span class="field-name">permissions</span><span class="field-type">jsonb</span></div>
+      <div class="divider"></div>
+      <div class="field-note">Default roles: admin, editor, writer, reviewer<br>permissions: {approve_draft, edit_article, publish, ...}</div>
+    </div>
+  </div>
+
+  <!-- WORKFLOW CONFIG -->
+  <div class="table t-system">
+    <div class="table-header">workflow_config</div>
+    <div class="table-body">
+      <div class="field"><span class="field-name pk">id</span><span class="field-type">uuid pk</span></div>
+      <div class="field"><span class="field-name">name</span><span class="field-type">text</span></div>
+      <div class="field"><span class="field-name">checkpoints</span><span class="field-type">jsonb</span></div>
+      <div class="field"><span class="field-name">notification_rules</span><span class="field-type">jsonb</span></div>
+      <div class="field"><span class="field-name">is_default</span><span class="field-type">bool</span></div>
+      <div class="divider"></div>
+      <div class="field-note">checkpoints: which states require human review<br>Preset: "solo" (all to one user)<br>Preset: "team" (writer → editor → reviewer)</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="relations">
+  <div class="section-label">Key relationships</div>
+  <div class="rel"><span class="rel-fk">article.project_id</span><span class="rel-arrow">→</span><span class="rel-target">project.id</span><span class="rel-label">(many articles per project)</span></div>
+  <div class="rel"><span class="rel-fk">article.current_draft_id</span><span class="rel-arrow">→</span><span class="rel-target">article_version.id</span><span class="rel-label">(current working version)</span></div>
+  <div class="rel"><span class="rel-fk">article_version.article_id</span><span class="rel-arrow">→</span><span class="rel-target">article.id</span><span class="rel-label">(full version history)</span></div>
+  <div class="rel"><span class="rel-fk">image_slot.article_id</span><span class="rel-arrow">→</span><span class="rel-target">article.id</span><span class="rel-label">(one slot per image type)</span></div>
+  <div class="rel"><span class="rel-fk">image_slot.selected_variant_id</span><span class="rel-arrow">→</span><span class="rel-target">image_variant.id</span><span class="rel-label">(chosen final image)</span></div>
+  <div class="rel"><span class="rel-fk">image_variant.slot_id</span><span class="rel-arrow">→</span><span class="rel-target">image_slot.id</span><span class="rel-label">(all generated variants)</span></div>
+  <div class="rel"><span class="rel-fk">publish_event.article_version_id</span><span class="rel-arrow">→</span><span class="rel-target">article_version.id</span><span class="rel-label">(which version was published)</span></div>
+  <div class="rel"><span class="rel-fk">user.role_id</span><span class="rel-arrow">→</span><span class="rel-target">role.id</span><span class="rel-label">(one role per user, roles are extensible)</span></div>
+</div>
