@@ -142,20 +142,30 @@ fi
 echo ""
 echo "── Environment ──"
 
-check_env() {
+# Check that vars are configured in .envrc, not just in current shell.
+# Doctor runs from dime-ops/ where direnv won't have loaded dime/.envrc.
+check_envrc() {
   local var="$1"
-  local repo="$2"
-  if [ -n "${!var:-}" ]; then
-    ok "$var set"
+  local envrc="$PARENT_DIR/$2/.envrc"
+  if [ ! -f "$envrc" ]; then
+    fail "$var — $2/.envrc not found" "create $2/.envrc (see $2/.envrc.example)"
+  elif grep -q "^export $var=" "$envrc"; then
+    local val
+    val="$(grep "^export $var=" "$envrc" | head -1 | sed 's/^export [^=]*=//' | tr -d '"')"
+    if [ -z "$val" ] || [[ "$val" == your-* ]]; then
+      warn "$var placeholder in $2/.envrc" "set a real value in $2/.envrc"
+    else
+      ok "$var configured in $2/.envrc"
+    fi
   else
-    warn "$var not set" "add to $repo/.envrc"
+    warn "$var not in $2/.envrc" "add: export $var=\"...\" to $2/.envrc"
   fi
 }
 
-check_env GOOGLE_ADK_API_KEY "dime"
-check_env LOGFIRE_TOKEN "dime"
-check_env DATABASE_URL "dime"
-check_env REDIS_URL "dime"
+check_envrc GOOGLE_ADK_API_KEY "dime"
+check_envrc LOGFIRE_TOKEN "dime"
+check_envrc DATABASE_URL "dime"
+check_envrc REDIS_URL "dime"
 
 # ── Summary ────────────────────────────────────────────────────────────────────
 echo ""
