@@ -11,9 +11,73 @@ Command center for the [Acts of Defiance](https://github.com/ActsOfDefiance) org
 - PostgreSQL (local)
 - Redis (local)
 
-## Setup
+## Getting started
+
+### 1. Clone all repos as siblings
 
 ```bash
+mkdir -p ActsOfDefiance && cd ActsOfDefiance
+git clone git@github.com:ActsOfDefiance/dime-ops.git
+git clone git@github.com:ActsOfDefiance/dime.git
+git clone git@github.com:ActsOfDefiance/acts-of-defiance.git
+git clone git@github.com:ActsOfDefiance/compendium.git
+```
+
+You should have:
+```
+ActsOfDefiance/
+  dime-ops/
+  dime/
+  acts-of-defiance/
+  compendium/
+```
+
+### 2. Install prerequisites
+
+```bash
+# macOS
+brew install just uv bun direnv postgresql redis
+
+# Linux — see each tool's install docs:
+# just: https://just.systems/man/en/installation.html
+# uv: https://docs.astral.sh/uv/
+# bun: https://bun.sh
+# direnv: https://direnv.net
+```
+
+Start services:
+```bash
+brew services start postgresql   # or: sudo systemctl start postgresql
+brew services start redis        # or: redis-server --daemonize yes
+```
+
+### 3. Create the dime database
+
+```bash
+createuser dime_user
+createdb -O dime_user dime_dev
+psql -c "ALTER USER dime_user WITH PASSWORD 'dime_password';"
+```
+
+### 4. Configure secrets
+
+```bash
+cd dime
+cp .envrc.example .envrc
+# Edit .envrc — fill in your GOOGLE_ADK_API_KEY and LOGFIRE_TOKEN
+direnv allow
+```
+
+### 5. Install dependencies
+
+```bash
+cd dime && uv sync && cd ..
+```
+
+### 6. Link and verify
+
+```bash
+cd dime-ops
 just link     # create symlinks in sibling repos
 just doctor   # verify full environment
 ```
