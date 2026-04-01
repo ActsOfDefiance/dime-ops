@@ -54,4 +54,4 @@ create-layer-skills
 - [x] All repos have Gitflow branch protection (main + develop protected)
 - [x] dime README and CLAUDE.md reflect current architecture
 - [x] Claude Code skills available for each layer
-- [ ] `dime-ops/setup/doctor.sh` passes all checks
+- [x] `dime-ops/setup/doctor.sh` passes all checks

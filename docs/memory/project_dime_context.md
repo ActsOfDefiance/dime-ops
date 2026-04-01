@@ -22,7 +22,30 @@ Dime is a general-purpose AI-agent-driven publishing pipeline (research → writ
 
 **Symlink convention:** each sibling repo symlinks docs/memory/, docs/specs/, docs/decisions/ → ../dime-ops/docs/. `dime-ops/setup/link.sh` creates them. `dime-ops/setup/doctor.sh` verifies and repairs.
 
-**Currently:** still working in the local mono-repo at top level. Migration to multi-repo is a future task. docs/ here will move to dime-ops.
+**Current epic:** epic-dime-core — implementing the actual product.
+
+**Settled decisions (as of 2026-03-31):**
+- DECISION-001: Filesystem canonical, git as versioning layer. DB stores git commit hash pointer in `article_checkpoint`. Content snapshot only at publish time.
+- DECISION-008: Three Claude Code layer skills (feature-dime, feature-dime-ui, feature-aod) in `dime-ops/.claude/commands/`, symlinked into each repo via `setup/link.sh`.
+- DECISION-009: Integration test strategy — `@pytest.mark.integration` for real-service tests; `uv run pytest` = unit only; CI uses Docker-provisioned Postgres + Redis.
+
+**dime-core progress (as of 2026-03-31):**
+- ✅ configure-dime-project-deps (#20) — deps, Alembic, pyright, pytest markers, dir stubs
+- ✅ implement-db-schema (#14) — SQLAlchemy models + Alembic migrations
+- ✅ implement-adapters (#15) — BrokerAdapter, FileSystemAdapter, PublishingAdapter, NotificationAdapter
+- 🔄 implement-api-layer (#16) — in progress
+- ⬜ implement-hugo-adapter (#19) — unblocked
+- ⬜ write-agent-prompts (#12) — unblocked
+- ⬜ implement-pipeline (#17) — blocked on #16
+- ⬜ implement-agents (#18) — blocked on #17 + #12
+
+**PM tooling:**
+- `/pm` skill in `dime-ops/.claude/commands/pm.md` — triage, promote, next, status, roadmap, audit, retro
+- Playbook: `.claude/pm/playbook.md`; Priorities: `.claude/pm/priorities.md`
+- GitHub is canonical for active issues; local `docs/issues/` is planning only
+- Feature skills read issues via `gh issue view {N} --repo ActsOfDefiance/{repo}` and include `Closes #N` in PR bodies
+
+**dime-ops PR #1** (`feature/complete-ops-setup-epic` → `develop`) — open, all review feedback addressed, ready to merge.
 
 **Architecture decisions:** see `docs/specs/` for full specs per layer.
 

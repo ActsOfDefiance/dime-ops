@@ -4,7 +4,7 @@
 **Priority:** high — blocks implement-db-schema, implement-adapters, implement-api-layer
 **Repo:** dime
 **Epic:** epic-dime-core
-**GitHub:** ActsOfDefiance/dime#20
+**GitHub:** ActsOfDefiance/dime#20 (closed — completed before this PR)
 **Blocks:** #14, #15, #16, #17, #18, #19
 
 ## Problem
