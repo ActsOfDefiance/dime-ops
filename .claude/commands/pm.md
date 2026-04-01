@@ -123,6 +123,7 @@ Show the current state of work.
    ```bash
    gh issue list --repo ActsOfDefiance/dime-ops --state open --json number,title,labels
    gh issue list --repo ActsOfDefiance/dime --state open --json number,title,labels
+   gh issue list --repo ActsOfDefiance/dime-ui --state open --json number,title,labels
    gh issue list --repo ActsOfDefiance/acts-of-defiance --state open --json number,title,labels
    gh issue list --repo ActsOfDefiance/compendium --state open --json number,title,labels
    ```
@@ -228,7 +229,9 @@ Summarize recent completed work.
    ```bash
    git -C . log --oneline --since="1 week ago"
    git -C ../dime log --oneline --since="1 week ago"
+   git -C ../dime-ui log --oneline --since="1 week ago"
    git -C ../acts-of-defiance log --oneline --since="1 week ago"
+   git -C ../compendium log --oneline --since="1 week ago"
    ```
 2. Check recently closed GitHub issues
 3. Check epic progress (what got checked off)

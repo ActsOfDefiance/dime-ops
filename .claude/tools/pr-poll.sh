@@ -118,6 +118,12 @@ check_activity() {
 # Main loop
 # ---------------------------------------------------------------------------
 
+# Establish baseline so we only react to activity that occurs after this point
+echo "Establishing baseline..."
+check_activity
+echo "Baseline: $CURRENT_CC comments, $CURRENT_RC reviews, $CURRENT_LC line comments"
+echo "Watching for new activity..."
+
 while true; do
   sleep 60
   check_activity
