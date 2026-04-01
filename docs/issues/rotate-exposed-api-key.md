@@ -10,18 +10,18 @@ Multiple live secrets are present in `dime/.env` and `dime/.envrc`. If either fi
 
 | Secret | Location | Value |
 |---|---|---|
-| `GOOGLE_API_KEY` / `GOOGLE_ADK_API_KEY` | `.env` line 2, `.envrc` line 37 | `AIzaSyAr4wXark8DBCDmbQA4DyABwD-oVXxB4_Q` |
-| `LOGFIRE_TOKEN` | `.envrc` line 53 | `pylf_v1_us_jdQt3W...` |
+| `GOOGLE_API_KEY` / `GOOGLE_ADK_API_KEY` | `.env` line 2, `.envrc` line 37 | `REDACTED` |
+| `LOGFIRE_TOKEN` | `.envrc` line 53 | `REDACTED` |
 
 ## Actions
 
 ### 1. Rotate Google API key via gcloud
 - [x] Switched gcloud project to `actsofdefiance`
-- [x] Created new key `dime-dev` → `AIzaSyBpX2W7rKZlyQpAi_cVbQTzLj4N2gLpM84`
+- [x] Created new key `dime-dev` → `REDACTED`
 - [x] Deleted old exposed key from GCP
 
 ### 2. Rotate Logfire token
-- [x] **MANUAL** — log in to logfire.pydantic.dev → Settings → API Tokens → revoke `pylf_v1_us_jdQt3W...` → create new token → update `.envrc` line 53
+- [x] **MANUAL** — log in to logfire.pydantic.dev → Settings → API Tokens → revoke old token → create new token → update `.envrc` line 53
 
 ### 3. Update local secrets
 - [x] Updated `GOOGLE_ADK_API_KEY` in `.envrc` with new key

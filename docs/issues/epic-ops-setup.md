@@ -11,7 +11,7 @@ Establish the multi-repo structure, project management home (dime-ops), and a cl
 ## Sub-issues
 
 ### Immediate (do before any GitHub push)
-- [ ] [rotate-exposed-api-key.md](rotate-exposed-api-key.md) — **CRITICAL**
+- [x] [rotate-exposed-api-key.md](rotate-exposed-api-key.md) — **CRITICAL**
 
 ### GitHub audit
 - [x] [review-existing-github-setup.md](review-existing-github-setup.md) — understand current state before creating anything
@@ -48,10 +48,10 @@ create-layer-skills
 
 ## Definition of Done
 
-- [ ] No secrets in any repo history
-- [ ] GitHub org has 4 repos (dime-ops, dime, acts-of-defiance, compendium)
-- [ ] dime-ops is canonical docs home; sibling repos have symlinks to it
-- [ ] All repos have Gitflow branch protection (main + develop protected)
-- [ ] dime README and CLAUDE.md reflect current architecture
-- [ ] Claude Code skills available for each layer
+- [x] No secrets in any repo history
+- [x] GitHub org has 4 repos (dime-ops, dime, acts-of-defiance, compendium)
+- [x] dime-ops is canonical docs home; sibling repos have symlinks to it
+- [x] All repos have Gitflow branch protection (main + develop protected)
+- [x] dime README and CLAUDE.md reflect current architecture
+- [x] Claude Code skills available for each layer
 - [ ] `dime-ops/setup/doctor.sh` passes all checks

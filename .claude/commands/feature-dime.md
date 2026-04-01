@@ -24,7 +24,8 @@ You are a feature development workflow orchestrator for the **dime** backend. Gu
 - **Testing**: `uv run pytest --cov --cov-fail-under=90`
 - **Coverage Requirement**: 90% minimum
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
-- **Issues**: local markdown in `docs/issues/` (symlinked from dime-ops)
+- **GitHub repo**: `ActsOfDefiance/dime` — all issue reads use `gh issue view`
+- **Issues**: GitHub is canonical; local `docs/issues/` is planning only
 
 ## MCP Tools Available
 
@@ -38,12 +39,16 @@ You are a feature development workflow orchestrator for the **dime** backend. Gu
 
 ### Step 1: Load Issue & Confirm Requirements
 
-1. Ask user for the issue if not provided
-2. **Check local issue files** at `docs/issues/`:
-   - Read the issue markdown file for requirements and acceptance criteria
-   - Check the parent epic for context and ordering
+1. Ask user for the issue if not provided (accept a GitHub issue number or a filename)
+2. **Load from GitHub** — GitHub is canonical for active work:
+   ```bash
+   gh issue view {NUMBER} --repo ActsOfDefiance/dime
+   ```
+   - If the user gave a filename instead of a number, check the local file for a `GitHub: ActsOfDefiance/dime#{NUMBER}` annotation and use that number.
+   - If no GitHub issue exists yet (pre-promotion), fall back to reading the local `docs/issues/` file directly.
 3. Display issue summary clearly:
    - Title, description, acceptance criteria
+   - Labels (type, priority, domain, status)
    - Dependencies and blockers
    - Which epic it belongs to
 4. Ask: "Do you understand the requirements? Ready to proceed? (yes/no)"
@@ -300,6 +305,8 @@ Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
      --body "$(cat <<'EOF'
    ## Summary
    [Brief description of changes]
+
+   Closes #{ISSUE_NUMBER}
 
    ## Changes
    - Added model for resources

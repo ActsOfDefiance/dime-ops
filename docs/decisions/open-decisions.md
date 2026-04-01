@@ -4,19 +4,6 @@ Deferred architectural and tooling decisions. Each entry has enough context to m
 
 ---
 
-## DECISION-001: Content versioning strategy
-
-**Decision needed before:** implementing `FileSystemAdapter` + `VersioningAdapter`
-
-**Options:**
-- **A (recommended):** Filesystem canonical, git as versioning layer, DB stores `article_checkpoint` as lightweight pointer (git commit hash). Content snapshot only at publish time.
-- **B:** DB canonical, filesystem is export. External edits require explicit import.
-- **C:** Git-native — DB stores only git commit hash references, no content at all.
-
-**Full trade-off analysis:** brainstorming session 2026-03-28. Option A aligns with the stated principle that markdown files are canonical and may be edited outside dime.
-
----
-
 ## DECISION-002: UI framework & design system
 
 **Decision needed before:** UI implementation sprint

@@ -21,7 +21,8 @@ You are a feature development workflow orchestrator for the **acts-of-defiance**
 - **Image source**: GCS (images are artifacts, not in git)
 - **Publishing**: dime's PublishingAdapter signals article readiness
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
-- **Issues**: local markdown in `docs/issues/` (symlinked from dime-ops)
+- **GitHub repo**: `ActsOfDefiance/acts-of-defiance` — all issue reads use `gh issue view`
+- **Issues**: GitHub is canonical; local `docs/issues/` is planning only
 
 ## Hugo Commands
 
@@ -40,12 +41,20 @@ hugo new content posts/article-slug.md
 
 ### Step 1: Load Issue & Confirm Requirements
 
-1. Ask user for the issue if not provided
-2. **Check local issue files** at `docs/issues/`
+1. Ask user for the issue if not provided (accept a GitHub issue number or a filename)
+2. **Load from GitHub** — GitHub is canonical for active work:
+   ```bash
+   gh issue view {NUMBER} --repo ActsOfDefiance/acts-of-defiance
+   ```
+   - If the user gave a filename instead of a number, check the local file for a `GitHub: ActsOfDefiance/acts-of-defiance#{NUMBER}` annotation and use that number.
+   - If no GitHub issue exists yet (pre-promotion), fall back to reading the local `docs/issues/` file directly.
 3. For content/theme work, also check:
    - `docs/specs/dime-overview.md` — publishing flow
    - `docs/projects/acts-of-defiance/content-guide.md` — tone, audience, style
-4. Display issue summary
+4. Display issue summary:
+   - Title, description, acceptance criteria
+   - Labels (type, priority, domain, status)
+   - Dependencies and blockers
 5. Ask: "Ready to proceed? (yes/no)"
 6. **DO NOT proceed until user confirms**
 
@@ -160,6 +169,8 @@ Ask: "Approve this commit? (yes/no/edit)"
      --body "$(cat <<'EOF'
    ## Summary
    [Brief description]
+
+   Closes #{ISSUE_NUMBER}
 
    ## Changes
    - Modified layout templates

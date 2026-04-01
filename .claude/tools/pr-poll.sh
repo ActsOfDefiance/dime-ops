@@ -106,7 +106,13 @@ check_activity() {
   fi
 
   CURRENT_CC=$cc; CURRENT_RC=$rc; CURRENT_LC=$lc
-  CURRENT_APPROVED=$(echo "$review_json" | jq '[.[] | select(.state == "APPROVED")] | length')
+  CURRENT_APPROVED=$(echo "$review_json" | jq '
+    sort_by(.submitted_at)
+    | group_by(.user.login)
+    | map(.[-1])
+    | map(select(.state == "APPROVED"))
+    | length
+  ')
 }
 
 # ---------------------------------------------------------------------------

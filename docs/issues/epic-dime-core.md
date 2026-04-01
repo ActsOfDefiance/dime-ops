@@ -10,9 +10,12 @@ A working content pipeline: from project creation through research, writing, art
 
 ## Sub-issues
 
-### Foundation (no dependencies on each other)
-- [ ] [implement-db-schema.md](implement-db-schema.md) — PostgreSQL tables: project, article, article_checkpoint, image_slot, image_variant, publish_event, user, role, workflow_config
-- [ ] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Hugo signal), NotificationAdapter
+### Prerequisites
+- [x] [configure-dime-project-deps.md](configure-dime-project-deps.md) — add SQLAlchemy, Alembic, FastAPI, Redis, pyright; run alembic init; scaffold package dirs
+
+### Foundation (depends on: configure-dime-project-deps)
+- [x] [implement-db-schema.md](implement-db-schema.md) — PostgreSQL tables: project, article, article_checkpoint, image_slot, image_variant, publish_event, user, role, workflow_config
+- [x] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Hugo signal), NotificationAdapter
 
 ### API layer
 - [ ] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint

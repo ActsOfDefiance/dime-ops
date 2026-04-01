@@ -4,6 +4,14 @@ Architectural and tooling decisions that have been made. Kept for context and ra
 
 ---
 
+## DECISION-001: Content versioning strategy
+
+**Decision:** Option A — filesystem canonical, git as versioning layer.
+
+**Why:** Markdown files in `compendium/` are the source of truth and may be edited outside dime (vim, direct git, etc.). The DB stores a lightweight pointer (`git_commit_hash`) in `article_checkpoint` at each human checkpoint. A full `content_snapshot` is written to the DB only at publish time as a forensic copy. Content blobs never live in the DB during active work. The `article_checkpoint` table was already designed for this — no schema changes needed.
+
+---
+
 ## Documentation strategy
 
 **Developer docs:** Markdown in `docs/` within each repo. Version-controlled alongside code, reviewable in PRs. No GitHub Wiki — it's per-repo and fragments in a multi-repo setup.

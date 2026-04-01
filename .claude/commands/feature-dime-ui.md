@@ -25,7 +25,8 @@ You are a feature development workflow orchestrator for the **dime-ui** frontend
 - **Unit tests**: `bun run test:unit`
 - **E2E tests**: `bun run test:e2e` (Playwright)
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
-- **Issues**: local markdown in `docs/issues/` (symlinked from dime-ops)
+- **GitHub repo**: `ActsOfDefiance/dime-ui` — all issue reads use `gh issue view`
+- **Issues**: GitHub is canonical; local `docs/issues/` is planning only
 
 ## MCP Tools Available
 
@@ -39,14 +40,22 @@ You are a feature development workflow orchestrator for the **dime-ui** frontend
 
 ### Step 1: Load Issue & Confirm Requirements
 
-1. Ask user for the issue if not provided
-2. **Check local issue files** at `docs/issues/`:
-   - Read the issue markdown file for requirements
-   - Check `docs/specs/dime-ui.md` for UI design spec
-   - Check `docs/wireframes/` for visual reference
-3. Display issue summary clearly
-4. Ask: "Do you understand the requirements? Ready to proceed? (yes/no)"
-5. **DO NOT proceed until user confirms**
+1. Ask user for the issue if not provided (accept a GitHub issue number or a filename)
+2. **Load from GitHub** — GitHub is canonical for active work:
+   ```bash
+   gh issue view {NUMBER} --repo ActsOfDefiance/dime-ui
+   ```
+   - If the user gave a filename instead of a number, check the local file for a `GitHub: ActsOfDefiance/dime-ui#{NUMBER}` annotation and use that number.
+   - If no GitHub issue exists yet (pre-promotion), fall back to reading the local `docs/issues/` file directly.
+3. Also check:
+   - `docs/specs/dime-ui.md` for UI design spec
+   - `docs/wireframes/` for visual reference
+4. Display issue summary clearly:
+   - Title, description, acceptance criteria
+   - Labels (type, priority, domain, status)
+   - Dependencies and blockers
+5. Ask: "Do you understand the requirements? Ready to proceed? (yes/no)"
+6. **DO NOT proceed until user confirms**
 
 ### Step 2: Create Feature Branch
 
@@ -251,6 +260,8 @@ Ask: "Approve this commit? (yes/no/edit)"
      --body "$(cat <<'EOF'
    ## Summary
    [Brief description]
+
+   Closes #{ISSUE_NUMBER}
 
    ## Changes
    - Created Component with stores

@@ -32,10 +32,14 @@ if [[ -z "${DATABASE_URL:-}" ]]; then
     exit 1
 fi
 
-# 4. Check Postgres is reachable
-if ! pg_isready -d "$DATABASE_URL" -q 2>/dev/null; then
-    echo "WARNING: PostgreSQL may not be reachable at DATABASE_URL." >&2
-    echo "         Continuing anyway — Alembic will report the actual error." >&2
+# 4. Check Postgres is reachable (skip if pg_isready not installed)
+if command -v pg_isready &>/dev/null; then
+    if ! pg_isready -d "$DATABASE_URL" -q 2>/dev/null; then
+        echo "WARNING: PostgreSQL may not be reachable at DATABASE_URL." >&2
+        echo "         Continuing anyway — Alembic will report the actual error." >&2
+    fi
+else
+    echo "WARNING: pg_isready not found; skipping PostgreSQL reachability pre-check." >&2
 fi
 
 # 5. Default to 'upgrade head' if no args

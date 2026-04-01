@@ -11,6 +11,12 @@ PARENT_DIR="$(dirname "$DIME_OPS_DIR")"
 REPOS=("dime" "dime-ui" "acts-of-defiance" "compendium")
 SUBDIRS=("memory" "specs" "decisions" "wireframes" "issues" "projects")
 
+# Claude Code skill to link per repo (filename in dime-ops/.claude/commands/)
+declare -A REPO_SKILL
+REPO_SKILL["dime"]="feature-dime.md"
+REPO_SKILL["dime-ui"]="feature-dime-ui.md"
+REPO_SKILL["acts-of-defiance"]="feature-aod.md"
+
 ok=0; skipped=0; updated=0; warned=0
 
 create_symlink() {
@@ -71,6 +77,11 @@ for repo in "${REPOS[@]}"; do
     create_symlink "$DIME_OPS_DIR/docs/$subdir" "$repo_dir/docs/$subdir"
   done
   ensure_claudeignore "$repo_dir"
+  if [ -n "${REPO_SKILL[$repo]+_}" ]; then
+    skill_file="${REPO_SKILL[$repo]}"
+    create_symlink "$DIME_OPS_DIR/.claude/commands/$skill_file" "$repo_dir/.claude/commands/$skill_file"
+  fi
+  create_symlink "$DIME_OPS_DIR/.claude/tools" "$repo_dir/.claude/tools"
   echo ""
 done
 
