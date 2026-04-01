@@ -5,7 +5,7 @@
 
 set -euo pipefail
 REPO="${1:?Usage: pr-poll.sh <owner/repo> <pr_number>}"
-PR="${2:?Usage: pr-poll.sh <owner/repo> <pr_number>}"
+PR="${2:?Usage: pr-poll.sh <owner/repo> <pr_number> (missing pr_number)}"
 
 # Verify dependencies
 if ! command -v gh >/dev/null 2>&1; then
