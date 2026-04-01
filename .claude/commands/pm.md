@@ -226,9 +226,9 @@ Summarize recent completed work.
 
 1. Check git logs across repos for recent activity:
    ```bash
-   git -C /home/vance/projects/ActsOfDefiance/dime-ops log --oneline --since="1 week ago"
-   git -C /home/vance/projects/ActsOfDefiance/dime log --oneline --since="1 week ago"
-   git -C /home/vance/projects/ActsOfDefiance/acts-of-defiance log --oneline --since="1 week ago"
+   git -C . log --oneline --since="1 week ago"
+   git -C ../dime log --oneline --since="1 week ago"
+   git -C ../acts-of-defiance log --oneline --since="1 week ago"
    ```
 2. Check recently closed GitHub issues
 3. Check epic progress (what got checked off)

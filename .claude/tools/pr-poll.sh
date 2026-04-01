@@ -28,7 +28,7 @@ else
 fi
 
 compute_hash() {
-  $HASH_CMD | awk '{print $1}'
+  $HASH_CMD | grep -oE '[a-f0-9]{32}'
 }
 
 # Initialize to zero so any pre-existing activity is detected on the first poll
@@ -107,9 +107,8 @@ check_activity() {
 
   CURRENT_CC=$cc; CURRENT_RC=$rc; CURRENT_LC=$lc
   CURRENT_APPROVED=$(echo "$review_json" | jq '
-    sort_by(.submitted_at)
-    | group_by(.user.login)
-    | map(.[-1])
+    group_by(.user.login)
+    | map(sort_by(.submitted_at) | .[-1])
     | map(select(.state == "APPROVED"))
     | length
   ')
