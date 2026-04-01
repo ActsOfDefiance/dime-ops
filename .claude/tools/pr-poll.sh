@@ -50,19 +50,19 @@ CURRENT_LC=0
 print_new_issue_comments() {
   local json="$1"
   echo "=== NEW ISSUE COMMENT(S) ==="
-  echo "$json" | jq -r '.[-3:] | .[] | "--- \(.user.login) (\(.created_at)) ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) ---\n\(.body[:500])\n"'
 }
 
 print_new_reviews() {
   local json="$1" label="$2"
   echo "=== $label ==="
-  echo "$json" | jq -r '.[-3:] | .[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body[:500])\n"'
 }
 
 print_new_line_comments() {
   local json="$1" label="$2"
   echo "=== $label ==="
-  echo "$json" | jq -r '.[-3:] | .[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body[:500])\n"'
 }
 
 # ---------------------------------------------------------------------------

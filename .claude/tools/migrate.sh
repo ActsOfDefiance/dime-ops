@@ -14,7 +14,7 @@
 set -euo pipefail
 
 # 1. Verify we're in the dime repo
-if [[ ! -f "pyproject.toml" ]] || ! grep -q 'name = "dime"' pyproject.toml 2>/dev/null; then
+if [[ ! -f "pyproject.toml" ]] || ! grep -q '^name = "dime"' pyproject.toml 2>/dev/null; then
     echo "ERROR: Must be run from the dime/ repo root." >&2
     exit 1
 fi
