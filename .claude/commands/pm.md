@@ -270,11 +270,11 @@ The PM operates across all repos:
 
 | Repo | GitHub path | Local path |
 |---|---|---|
-| dime-ops | ActsOfDefiance/dime-ops | /home/vance/projects/ActsOfDefiance/dime-ops |
-| dime | ActsOfDefiance/dime | /home/vance/projects/ActsOfDefiance/dime |
-| dime-ui | ActsOfDefiance/dime-ui | /home/vance/projects/ActsOfDefiance/dime-ui |
-| acts-of-defiance | ActsOfDefiance/acts-of-defiance | /home/vance/projects/ActsOfDefiance/acts-of-defiance |
-| compendium | ActsOfDefiance/compendium | /home/vance/projects/ActsOfDefiance/compendium |
+| dime-ops | ActsOfDefiance/dime-ops | . |
+| dime | ActsOfDefiance/dime | ../dime |
+| dime-ui | ActsOfDefiance/dime-ui | ../dime-ui |
+| acts-of-defiance | ActsOfDefiance/acts-of-defiance | ../acts-of-defiance |
+| compendium | ActsOfDefiance/compendium | ../compendium |
 
 ## Autonomy Rules
 
