@@ -63,6 +63,13 @@ markers = [
     "integration: requires Postgres, Redis, or GCS (deselect with -m 'not integration')",
 ]
 addopts = "-m 'not integration'"  # unit tests only by default
+
+[tool.coverage.run]
+source = ["dime"]
+branch = true
+
+[tool.coverage.report]
+fail_under = 90
 ```
 
 ## pyright configuration

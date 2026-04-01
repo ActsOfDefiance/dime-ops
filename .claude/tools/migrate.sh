@@ -34,7 +34,10 @@ fi
 
 # 4. Check Postgres is reachable (skip if pg_isready not installed)
 if command -v pg_isready &>/dev/null; then
-    if ! pg_isready -d "$DATABASE_URL" -q 2>/dev/null; then
+    # Strip SQLAlchemy driver prefix (e.g. postgresql+asyncpg://) — pg_isready
+    # only understands standard postgresql:// connection strings.
+    pg_url="${DATABASE_URL/+*:\/\//://}"
+    if ! pg_isready -d "$pg_url" -q 2>/dev/null; then
         echo "WARNING: PostgreSQL may not be reachable at DATABASE_URL." >&2
         echo "         Continuing anyway — Alembic will report the actual error." >&2
     fi
