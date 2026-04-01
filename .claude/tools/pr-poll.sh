@@ -50,19 +50,19 @@ CURRENT_LC=0
 print_new_issue_comments() {
   local json="$1"
   echo "=== NEW ISSUE COMMENT(S) ==="
-  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) ---\n\((.body // "")[0:500])\n"'
 }
 
 print_new_reviews() {
   local json="$1" label="$2"
   echo "=== $label ==="
-  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\((.body // "")[0:500])\n"'
 }
 
 print_new_line_comments() {
   local json="$1" label="$2"
   echo "=== $label ==="
-  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body[:500])\n"'
+  echo "$json" | jq -r '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\((.body // "")[0:500])\n"'
 }
 
 # ---------------------------------------------------------------------------
@@ -82,11 +82,11 @@ check_activity() {
   rc=$(echo "$review_json" | jq 'length')
   lc=$(echo "$lc_json" | jq 'length')
   issue_hash=$(echo "$issue_json" \
-    | jq -r '[.[] | .created_at + .updated_at + (.body[:100])] | join("|")' | compute_hash)
+    | jq -r '[.[] | .created_at + .updated_at + ((.body // "")[0:100])] | join("|")' | compute_hash)
   review_hash=$(echo "$review_json" \
-    | jq -r '[.[] | .submitted_at + .state + (.body[:100])] | join("|")' | compute_hash)
+    | jq -r '[.[] | .submitted_at + .state + ((.body // "")[0:100])] | join("|")' | compute_hash)
   lc_hash=$(echo "$lc_json" \
-    | jq -r '[.[] | .created_at + .updated_at + (.body[:100])] | join("|")' | compute_hash)
+    | jq -r '[.[] | .created_at + .updated_at + ((.body // "")[0:100])] | join("|")' | compute_hash)
 
   CHANGED=false
 
