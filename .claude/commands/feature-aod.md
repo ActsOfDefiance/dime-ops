@@ -1,40 +1,44 @@
 ---
 name: feature-aod
-description: Execute feature development workflow for acts-of-defiance (Hugo static site) with content publishing, theme development, and publishing adapter integration. Use when working on the publication site.
+description: Execute feature development workflow for acts-of-defiance (Astro + Svelte 5 static site) with content publishing, theme development, and publishing adapter integration. Use when working on the publication site.
 allowed-tools: Read, Grep, Glob, Bash, Edit, Write, Task, AskUserQuestion, ToolSearch
 user-invocable: true
 ---
 
-# Feature Development Workflow - acts-of-defiance (Hugo)
+# Feature Development Workflow - acts-of-defiance (Astro + Svelte 5)
 
 **Repo**: acts-of-defiance (the publication)
-**Stack**: Hugo, Markdown, HTML/CSS/JS templates
-**Note**: Evaluating migration to Astro (DECISION-003) — check current state before assuming Hugo
+**Stack**: Astro + Svelte 5, Bun, TypeScript, Markdown
+**Note**: DECISION-003 settled — Astro + Svelte 5
 
 You are a feature development workflow orchestrator for the **acts-of-defiance** publication site. Guide developers through structured work on the static site — theme development, content templates, publishing adapter integration, and deployment.
 
 ## Project Context
 
 - **Repo**: `ActsOfDefiance/acts-of-defiance`
-- **Stack**: Hugo (currently), possibly Astro (pending DECISION-003)
+- **Stack**: Astro + Svelte 5, Bun, TypeScript
 - **Content source**: `compendium/` repo (Markdown articles, GPLv3)
 - **Image source**: GCS (images are artifacts, not in git)
 - **Publishing**: dime's PublishingAdapter signals article readiness
+- **Design standards**: Read `docs/specs/design-standards.md` — WCAG 2.2 AA compliance and performance requirements apply to all work
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
 - **GitHub repo**: `ActsOfDefiance/acts-of-defiance` — all issue reads use `gh issue view`
 - **Issues**: GitHub is canonical; local `docs/issues/` is planning only
 
-## Hugo Commands
+## Astro Commands
 
 ```bash
 # Development server
-hugo server -D
+bun run dev
 
 # Build
-hugo
+bun run build
 
-# New content
-hugo new content posts/article-slug.md
+# Preview production build
+bun run preview
+
+# Create new Astro project (if starting fresh)
+bun create astro
 ```
 
 ## Workflow Steps (EXECUTE IN ORDER)
@@ -68,34 +72,36 @@ hugo new content posts/article-slug.md
 ### Step 2.5: Load Project Context
 
 1. Read `CLAUDE.md` for site conventions
-2. Understand the Hugo directory structure:
+2. Understand the Astro directory structure:
    ```
    acts-of-defiance/
-     archetypes/          # Content templates
-     assets/              # Processed assets (SCSS, JS)
-     content/             # Site content (posts, pages)
-     data/                # Data files
-     layouts/             # HTML templates
-     static/              # Static assets (images, fonts)
-     themes/              # Hugo themes
-     hugo.toml            # Site configuration
+     src/
+       pages/             # File-based routing (.astro files)
+       components/        # Astro (.astro) and Svelte (.svelte) components
+       layouts/           # Page layouts
+       content/           # Content Collections (Markdown articles)
+       styles/            # Global styles
+     public/              # Static assets (fonts, favicons — served as-is)
+     astro.config.mjs     # Astro configuration
+     package.json         # Dependencies and scripts
    ```
 3. Display: "Context loaded. Proceeding to planning..."
 
 ### Step 3: Create Implementation Plan (APPROVAL REQUIRED)
 
 1. **Determine the type of work**:
-   - **Theme/layout**: Changes to `layouts/`, `assets/`, `themes/`
-   - **Content template**: Changes to `archetypes/`, frontmatter schema
-   - **Publishing integration**: How dime's PublishingAdapter signals content
-   - **Configuration**: `hugo.toml`, taxonomies, menus
+   - **Layout/components**: Changes to `src/layouts/`, `src/components/` (.astro and .svelte files)
+   - **Content**: Changes to `src/content/` (Content Collections, schema definitions)
+   - **Pages/routing**: Changes to `src/pages/` (file-based routing)
+   - **Publishing integration**: How dime's AstroAdapter signals content
+   - **Configuration**: `astro.config.mjs`, integrations, content collection schemas
 
 2. **Create detailed plan** including:
    - Files to create/modify
-   - Template hierarchy (base → section → single)
-   - Frontmatter fields needed
-   - Asset pipeline changes
-   - How this integrates with dime's publishing adapter
+   - Component hierarchy (layouts → pages → components)
+   - Content Collection schema and frontmatter fields
+   - Astro/Svelte component split (static = .astro, interactive = .svelte)
+   - How this integrates with dime's AstroAdapter
 
 3. Present plan. Ask: "Approve? (yes/no/changes needed)"
 4. **DO NOT proceed until approved**
@@ -108,13 +114,13 @@ Write the approved plan using plan mode or to a local file.
 
 1. **Follow the approved plan exactly**
 
-2. **Hugo-specific guidelines**:
-   - Use Hugo's template lookup order
-   - Prefer `hugo.toml` over `config.yaml` or `config.json`
-   - Use Hugo Pipes for asset processing
-   - Use shortcodes for reusable content patterns
-   - Respect content organization (sections, taxonomies)
-   - Frontmatter: TOML preferred (matches hugo.toml)
+2. **Astro + Svelte 5 guidelines**:
+   - Use Astro components (.astro) for static content, Svelte components (.svelte) for interactive islands
+   - Configure site in `astro.config.mjs` (includes @astrojs/svelte integration)
+   - Use Content Collections with schema validation for article content
+   - Use Astro's built-in image optimization for responsive images
+   - Frontmatter: YAML in Markdown Content Collections
+   - Use file-based routing in `src/pages/`
 
 3. **Content guidelines** (from content-guide.md):
    - Target audience: liberal adults 20-40
@@ -126,20 +132,20 @@ Write the approved plan using plan mode or to a local file.
 ### Step 6: Build & Verify (QUALITY GATE)
 
 ```bash
-# Build the site — Hugo reports errors here
-hugo
+# Build the site — Astro reports errors here
+bun run build
 
 # Run dev server and verify visually
-hugo server -D
+bun run dev
 ```
 
 1. Fix all build errors
 2. **DO NOT proceed if build fails**
-3. Display: "Build succeeded. Verify visually at http://localhost:1313"
+3. Display: "Build succeeded. Verify visually at http://localhost:4321"
 
 ### Step 7: Visual Verification (APPROVAL REQUIRED)
 
-1. Ask user to verify the changes visually at `http://localhost:1313`
+1. Ask user to verify the changes visually at `http://localhost:4321`
 2. Ask: "Does the site look correct? (yes/no/changes needed)"
 3. **DO NOT proceed until approved**
 
@@ -179,13 +185,13 @@ Ask: "Approve this commit? (yes/no/edit)"
 
    ## Verification
    ```bash
-   hugo server -D
+   bun run dev
    # Navigate to [page] and verify [feature]
    ```
 
    ## Checklist
-   - [x] `hugo` builds without errors
-   - [x] Visually verified at localhost:1313
+   - [x] `bun run build` succeeds without errors
+   - [x] Visually verified at localhost:4321
    - [x] Responsive design verified
    - [x] Content guide followed (if content changes)
    - [x] No secrets committed
@@ -226,7 +232,7 @@ Create an action plan. Ask: "Approve this plan to address review comments? (yes/
 #### 10d. Implement fixes, rebuild, push
 
 1. Implement fixes
-2. Re-run `hugo` build — must succeed
+2. Re-run `bun run build` — must succeed
 3. Commit and push
 4. Resolve review threads via GraphQL
 5. Go back to Step 10a
@@ -245,7 +251,7 @@ Display completion summary.
 
 - **Never skip steps**
 - **Build must succeed before PR**
-- **Visual verification required** — Hugo sites need human eyes
+- **Visual verification required** — static sites need human eyes
 - **Approval checkpoints require explicit yes**
 - **Content guide compliance** for any content changes
 - **If blocked**, ask for guidance

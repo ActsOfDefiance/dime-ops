@@ -15,7 +15,7 @@ A working content pipeline: from project creation through research, writing, art
 
 ### Foundation (depends on: configure-dime-project-deps)
 - [x] [implement-db-schema.md](implement-db-schema.md) — PostgreSQL tables: project, article, article_checkpoint, image_slot, image_variant, publish_event, user, role, workflow_config
-- [x] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Hugo signal), NotificationAdapter
+- [x] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Astro signal), NotificationAdapter
 
 ### API layer
 - [ ] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint
@@ -26,7 +26,7 @@ A working content pipeline: from project creation through research, writing, art
 - [ ] [implement-agents.md](implement-agents.md) — ADK LlmAgents (Research, Writer, ArtDirector, Image) + PublisherAgent; content_guide injection; tool implementations
 
 ### Publishing
-- [ ] [implement-hugo-adapter.md](implement-hugo-adapter.md) — PublishingAdapter for Hugo: markdown emit, frontmatter, signal file, GCS image download
+- [ ] [implement-astro-adapter.md](implement-astro-adapter.md) — PublishingAdapter for Astro: markdown emit, Content Collections frontmatter, signal file, GCS image download
 
 ### Decisions to resolve during this epic
 - [ ] DECISION-001: Article versioning strategy (git pointer vs DB snapshot) — resolve before implementing FileSystemAdapter
@@ -46,7 +46,7 @@ write-agent-prompts
     ↓
 implement-agents
     ↓
-implement-hugo-adapter
+implement-astro-adapter
 ```
 
 ## Definition of Done
@@ -55,7 +55,7 @@ implement-hugo-adapter
 - [ ] `uv run pyright` no errors
 - [ ] `uv run ruff check` clean
 - [ ] Pipeline can take an article from `queued` → `published` end-to-end locally
-- [ ] Hugo adapter emits valid markdown + frontmatter to compendium/
+- [ ] Astro adapter emits valid markdown + frontmatter to compendium/
 - [ ] All adapters injectable via config (no hardcoded Redis or filesystem paths)
 - [ ] content_guide data from project.content_guide injected into agent context
 - [ ] Human checkpoint gates actually block pipeline until approved via API

@@ -69,6 +69,6 @@ dime/
 - [ ] content_guide is fetched from API (not hardcoded) and present in agent context
 - [ ] Agent failures surface as structured errors (not raw exceptions) — worker catches and marks article `failed`
 - [ ] ImageAgent runs for each slot independently (parallelizable)
-- [ ] PublisherAgent emits valid Hugo content (validated by running `hugo --dry-run`)
+- [ ] PublisherAgent emits valid Astro content (validated by running `bun run build`)
 - [ ] `pyright` no errors
 - [ ] `pytest tests/test_agents.py` — mocked LLM responses for deterministic unit tests (LLM is mocked here, not the broker/filesystem)

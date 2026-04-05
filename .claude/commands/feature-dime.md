@@ -23,6 +23,7 @@ You are a feature development workflow orchestrator for the **dime** backend. Gu
 - **Type checking**: `uv run pyright`
 - **Testing**: `uv run pytest --cov --cov-fail-under=90`
 - **Coverage Requirement**: 90% minimum
+- **Design standards**: Read `docs/specs/design-standards.md` — WCAG 2.2 AA compliance and performance requirements apply to all work
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
 - **GitHub repo**: `ActsOfDefiance/dime` — all issue reads use `gh issue view`
 - **Issues**: GitHub is canonical; local `docs/issues/` is planning only

@@ -42,7 +42,7 @@ See `docs/decisions/open-decisions.md` DECISION-004 for lower-cost alternatives 
 ## CI/CD
 
 - Merge to `main` → build containers → push to Artifact Registry → deploy to Cloud Run
-- Hugo site deploys independently: publish signal → Cloud Build trigger → `hugo --minify` → deploy to Firebase Hosting or Cloud Storage + CDN
+- Astro site deploys independently: publish signal → Cloud Build trigger → `bun run build` → deploy to Firebase Hosting or Cloud Storage + CDN
 - Separate pipelines — a broken article does not affect the site build
 
 ## Environment Variables

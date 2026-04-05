@@ -24,6 +24,7 @@ You are a feature development workflow orchestrator for the **dime-ui** frontend
 - **Type checking**: `bun run check` (svelte-check + TypeScript)
 - **Unit tests**: `bun run test:unit`
 - **E2E tests**: `bun run test:e2e` (Playwright)
+- **Design standards**: Read `docs/specs/design-standards.md` — WCAG 2.2 AA compliance and performance requirements apply to all work
 - **Branch naming**: `feature/<brief-description>` (Gitflow)
 - **GitHub repo**: `ActsOfDefiance/dime-ui` — all issue reads use `gh issue view`
 - **Issues**: GitHub is canonical; local `docs/issues/` is planning only

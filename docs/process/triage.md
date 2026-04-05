@@ -38,7 +38,7 @@ Inferred from issue content. An issue can have multiple domain labels:
 | FastAPI, endpoints, WebSocket | `api` |
 | ADK, agents, prompts | `agent` |
 | State machine, workers | `pipeline` |
-| Hugo, Astro, content emit | `publishing` |
+| Astro, content emit | `publishing` |
 | Svelte, frontend | `ui` |
 | Visual, UX | `design` |
 | GCP, deploy, CI | `infrastructure` |

@@ -4,27 +4,7 @@ Deferred architectural and tooling decisions. Each entry has enough context to m
 
 ---
 
-## DECISION-002: UI framework & design system
-
-**Decision needed before:** UI implementation sprint
-
-**Direction:** shadcn-svelte is the leading candidate (accessibility, ARIA, keyboard nav, consistent patterns). Stitch MCP is available in this environment to generate the style guide and design tokens.
-
-**Action:** Run Stitch before committing to any component library. Confirm Tailwind dependency is acceptable. Verify no conflicts with the existing Svelte project being abstracted for reuse.
-
-**Reference:** `docs/wireframes/dime-ui-chat-panes.html`
-
 ---
-
-## DECISION-003: Static site generator — Hugo vs. Astro
-
-**Decision needed before:** significant theme/layout work on acts_of_defiance site
-
-**Current:** Hugo (in place, fast, zero Node.js dependency, single binary).
-
-**Consider:** Astro — native Svelte component support, Content Collections built for markdown + typed frontmatter, TypeScript-first, excellent built-in image optimization. Shared design system components between site and dime UI is the compelling reason.
-
-**Low-risk swap:** `PublishingAdapter` interface means an `AstroAdapter` is just a new file. Don't invest in Hugo templates until this is decided.
 
 ---
 

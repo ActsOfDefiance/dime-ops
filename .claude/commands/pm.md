@@ -154,29 +154,39 @@ For expensive multi-repo analysis, spawn a background agent.
 
 ### next
 
-Recommend what to work on next.
+Recommend what to work on next. **GitHub issues are the source of truth** — always query live state rather than relying on local files alone.
 
-1. Read `.claude/pm/priorities.md`
+1. Fetch open issues from GitHub across all repos:
+   ```bash
+   gh issue list --repo ActsOfDefiance/dime --state open --json number,title,labels,state
+   gh issue list --repo ActsOfDefiance/dime-ops --state open --json number,title,labels,state
+   ```
 2. Read `.claude/pm/playbook.md` for priority patterns
-3. Read the active epic file
-4. Evaluate candidates:
+3. Read the active epic file for dependency graph context
+4. Cross-reference GitHub issue state (open/closed, labels) with the epic's dependency graph to determine which issues are actually unblocked
+5. Flag any stale labels (e.g. `blocked` on an issue whose blockers are closed, `in-progress` on a closed issue)
+6. Evaluate candidates:
    - Is anything blocked that we could unblock by making a decision?
    - What unblocked issue has the most downstream dependents?
    - What aligns with current focus?
-5. Present recommendation with reasoning:
+7. Present recommendation with reasoning:
    ```
-   Recommended: implement-adapters
+   Recommended: implement-pipeline (#17)
 
    Why:
-   - Unblocked (no dependencies)
-   - Blocks 3 downstream issues (api-layer, agents, hugo-adapter)
-   - Highest leverage issue in epic-dime-core
-   - DECISION-001 could also be resolved to unblock db-schema
+   - Unblocked (blocker #16 is closed)
+   - Blocks implement-agents (#18) — longest remaining dependency chain
+   - Critical path for epic-dime-core
 
-   Alternative: write-agent-prompts
-   - Also unblocked, but blocks fewer downstream issues (only agents)
+   Alternative: write-agent-prompts (#12)
+   - Also unblocked, blocks agents from the other direction
+   - Can be done in parallel
+
+   Stale labels:
+   - #17: `blocked` should be removed (blocker #16 closed)
    ```
-6. The user decides — this is a recommendation, not a mandate
+8. Update `.claude/pm/priorities.md` to reflect the current GitHub state
+9. The user decides — this is a recommendation, not a mandate
 
 ### promote
 

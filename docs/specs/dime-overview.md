@@ -15,7 +15,7 @@ Dime is a general-purpose, AI-agent-driven publishing pipeline. It researches to
 ```
 ActsOfDefiance/          ← working mono-repo during development
   dime/                  ← the agent system
-  acts_of_defiance/      ← Hugo static site (first publish target)
+  acts_of_defiance/      ← Astro static site (first publish target)
   compendium/            ← canonical markdown articles (git repo, source of truth)
   art/                   ← image assets produced by dime
   docs/

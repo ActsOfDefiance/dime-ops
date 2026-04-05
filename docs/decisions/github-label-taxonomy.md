@@ -31,7 +31,7 @@ Standardized across all repos: dime-ops, dime, dime-ui, acts-of-defiance, compen
 | `api` | #0e6e5c | FastAPI endpoints, WebSocket |
 | `database` | #1a7f5a | Schema, migrations, queries |
 | `pipeline` | #2b8a6e | State machine, worker dispatch |
-| `publishing` | #3a9a7e | Hugo/Astro adapter, content emit |
+| `publishing` | #3a9a7e | Astro adapter, content emit |
 | `ui` | #4aaa8e | Svelte frontend |
 | `design` | #5abba0 | Visual design, UX |
 | `infrastructure` | #0d5e4e | GCP, deploy, CI/CD |

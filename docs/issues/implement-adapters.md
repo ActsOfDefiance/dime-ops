@@ -22,8 +22,8 @@ All adapters are Python Protocols. Concrete implementations are injected via con
 
 ### PublishingAdapter
 **Protocol:** `emit(article, images)`, `signal()`, optional `preview_url()`
-**Hugo implementation:** write markdown to acts-of-defiance content dir, write frontmatter, write signal file, copy/reference images
-**Note:** Hugo adapter is the only required implementation. Others are future.
+**Astro implementation:** write markdown to acts-of-defiance `src/content/` dir, write Content Collections frontmatter, write signal file, copy/reference images
+**Note:** Astro adapter is the only required implementation. Others are future.
 
 ### NotificationAdapter
 **Protocol:** `notify(event, user, message)`
@@ -43,7 +43,7 @@ dime/
       local.py
       gcs.py
     publishing/
-      hugo.py
+      astro.py
     notification/
       websocket.py
 ```
@@ -55,7 +55,7 @@ dime/
 - [ ] BrokerAdapter: dispatch → consume round-trip works
 - [ ] FileSystemAdapter local: read/write/list on temp directory
 - [ ] FileSystemAdapter GCS: can be instantiated with a test bucket (integration test, gated behind env var)
-- [ ] PublishingAdapter Hugo: emits valid Hugo markdown with frontmatter to temp directory
+- [ ] PublishingAdapter Astro: emits valid Astro-compatible markdown with Content Collections frontmatter to temp directory
 - [ ] All adapters injectable via `adapter_factory(config)` — no direct imports in agent or API code
 
 ## Notes

@@ -88,7 +88,7 @@ just link     # create/repair symlinks in sibling repos
 just dime-dev      # start dime API server
 just dime-test     # run dime test suite
 just ui-dev        # start dime-ui dev server
-just site-dev      # start acts-of-defiance Hugo server
+just site-dev      # start acts-of-defiance Astro dev server
 ```
 
 ## Structure
@@ -116,5 +116,5 @@ dime-ops/
 | [dime-ops](https://github.com/ActsOfDefiance/dime-ops) | This repo — command center |
 | [dime](https://github.com/ActsOfDefiance/dime) | Python backend: agents, API, pipeline |
 | [dime-ui](https://github.com/ActsOfDefiance/dime-ui) | Svelte frontend |
-| [acts-of-defiance](https://github.com/ActsOfDefiance/acts-of-defiance) | Example publishing target (Hugo/Astro) — optional, for reference |
+| [acts-of-defiance](https://github.com/ActsOfDefiance/acts-of-defiance) | Example publishing target (Astro + Svelte 5) — optional, for reference |
 | [compendium](https://github.com/ActsOfDefiance/compendium) | Document store for article content (GPLv3) — optional, for reference |

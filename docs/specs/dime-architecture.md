@@ -37,7 +37,7 @@
                           │ signal
 ┌─────────────────────────▼───────────────────────────────────────┐
 │                   PUBLISHING ADAPTER (interface)                │
-│  HugoAdapter: copy files → hugo build → deploy                 │
+│  AstroAdapter: copy files → astro build → deploy                │
 │  FutureAdapter: POST to CMS API                                │
 └─────────────────────────────────────────────────────────────────┘
 ```

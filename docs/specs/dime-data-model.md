@@ -13,7 +13,7 @@ PostgreSQL schema. Content blobs do **not** live in the database — the filesys
 | style_guide | jsonb | image slots (name, width, height, format), style tokens, palette |
 | content_guide | jsonb | editorial config: audience, tone, voice, quality standards — injected into WriterAgent and ResearchAgent context |
 | workflow_config_id | uuid fk | → workflow_config |
-| default_adapter | text | registered adapter key e.g. `"hugo"` |
+| default_adapter | text | registered adapter key e.g. `"astro"` |
 | created_at | timestamptz | |
 
 `content_guide` shape (editable per project — different publications have different voices):

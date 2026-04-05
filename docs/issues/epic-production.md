@@ -27,7 +27,7 @@ Dime runs on GCP. The API is on Cloud Run (always-on). Workers run as Cloud Run 
 - [ ] Scale-to-zero config; job dispatch via broker
 
 ### CI/CD
-- [ ] [set-up-ci-cd.md](set-up-ci-cd.md) — GitHub Actions: test → build → deploy on merge to main (dime repo); Hugo/Astro build on acts-of-defiance repo
+- [ ] [set-up-ci-cd.md](set-up-ci-cd.md) — GitHub Actions: test → build → deploy on merge to main (dime repo); Astro build on acts-of-defiance repo
 
 ### Observability
 - [ ] Configure chosen observability stack (per DECISION-007)

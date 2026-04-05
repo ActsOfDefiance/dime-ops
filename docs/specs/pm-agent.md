@@ -111,7 +111,7 @@ Applied in order:
 - Mentions FastAPI/endpoints/WebSocket -> `api`
 - Mentions ADK/agents/prompts -> `agent`
 - Mentions state machine/workers -> `pipeline`
-- Mentions Hugo/Astro/content emit -> `publishing`
+- Mentions Astro/content emit -> `publishing`
 - Mentions Svelte/frontend -> `ui`
 - Mentions visual/UX -> `design`
 - Mentions GCP/deploy/CI -> `infrastructure`

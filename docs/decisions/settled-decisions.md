@@ -29,7 +29,7 @@ Architectural and tooling decisions that have been made. Kept for context and ra
 **Skills created:**
 - `feature-dime` — Python/FastAPI/ADK/uv/ruff/pyright/pytest
 - `feature-dime-ui` — SvelteKit/Bun/Vitest/Storybook/Playwright
-- `feature-aod` — Hugo (with Astro migration path)
+- `feature-aod` — Astro + Svelte 5
 
 **Location:** `dime-ops/.claude/commands/`
 
@@ -52,6 +52,36 @@ Architectural and tooling decisions that have been made. Kept for context and ra
 
 ---
 
+## DECISION-002: UI framework & design system — shadcn-svelte + Tailwind
+
+**Decision:** shadcn-svelte with Tailwind CSS for dime-ui.
+
+**Why:** Built-in accessibility (ARIA, keyboard nav), consistent component patterns, and strong Svelte ecosystem support. Tailwind provides utility-first styling without fighting a component library's opinions.
+
+**Scope:** dime-ui only. The acts-of-defiance publication site has its own design — no shared design system between the two.
+
+**Next steps:** Run Stitch MCP to generate style guide and design tokens before scaffolding components.
+
+**Reference:** `docs/wireframes/dime-ui-chat-panes.html`
+
+---
+
+## DECISION-003: Static site generator — Astro + Svelte 5
+
+**Decision:** Astro with Svelte 5 for interactive components.
+
+**Why:** Astro supports a progressive path from static to SSR. Start with a purely static site (pre-rendered HTML, deploy anywhere), then incrementally add interactive Svelte 5 islands for client-side interactivity, and eventually flip to SSR when server-side features are needed (ratings, user accounts, community engagement). Hugo can't offer this progression — if dynamic features are ever needed, it would require a full rewrite.
+
+**What this is NOT:** A shared design system with dime-ui. The publication site and the chat dashboard are separate products with separate design concerns.
+
+**Impact:**
+- `PublishingAdapter` needs an `AstroAdapter` implementation (new file, same interface)
+- `feature-aod` skill needs updating for Astro toolchain (Bun, Astro CLI)
+- acts-of-defiance repo needs migration from Hugo to Astro
+- DECISION-002 (dime-ui design system) is now fully independent of this decision
+
+---
+
 ## Licensing
 
 GPLv3 for all repos except art/image assets. Art assets (generated images, graphics) need separate licensing (likely CC BY-SA, stored in GCS not git). The `compendium` repo uses GPLv3 for article content.
@@ -71,7 +101,7 @@ github.com/ActsOfDefiance/
   dime-ops          <- command center: Claude home, canonical context, setup + doctor commands
   dime              <- Python agent + FastAPI
   dime-ui           <- Svelte/SvelteKit frontend
-  acts-of-defiance  <- Hugo/Astro site
+  acts-of-defiance  <- Astro + Svelte 5 site
   compendium        <- GPLv3 markdown articles (no images)
 ```
 

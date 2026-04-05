@@ -16,7 +16,7 @@ Dime is a general-purpose AI-agent-driven publishing pipeline (research → writ
 - `dime-ops` — Claude home, canonical context (CLAUDE.md, docs/memory/, docs/specs/), setup + doctor commands
 - `dime` — Python agent + FastAPI + Google ADK
 - `dime-ui` — Svelte/SvelteKit frontend (separate repo, separate deploy cycle)
-- `acts-of-defiance` — Hugo/Astro site
+- `acts-of-defiance` — Astro + Svelte 5 site
 - `compendium` — GPLv3 markdown articles (no images, own git history)
 - Images: NOT in git — GCS bucket via FileSystemAdapter
 
@@ -34,7 +34,7 @@ Dime is a general-purpose AI-agent-driven publishing pipeline (research → writ
 - ✅ implement-db-schema (#14) — SQLAlchemy models + Alembic migrations
 - ✅ implement-adapters (#15) — BrokerAdapter, FileSystemAdapter, PublishingAdapter, NotificationAdapter
 - 🔄 implement-api-layer (#16) — in progress
-- ⬜ implement-hugo-adapter (#19) — unblocked
+- ⬜ implement-astro-adapter (#19) — unblocked
 - ⬜ write-agent-prompts (#12) — unblocked
 - ⬜ implement-pipeline (#17) — blocked on #16
 - ⬜ implement-agents (#18) — blocked on #17 + #12

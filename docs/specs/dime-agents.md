@@ -69,15 +69,15 @@ class PublishingAdapter(Protocol):
 - `schedule_at`: datetime — publish at a future time
 - `dry_run`: bool — validate without publishing
 
-Adapters registered by string key. `project.default_adapter = "hugo"`. Adding an adapter = one new file in `dime/adapters/`, no core changes.
+Adapters registered by string key. `project.default_adapter = "astro"`. Adding an adapter = one new file in `dime/adapters/`, no core changes.
 
-## HugoAdapter (first implementation)
+## AstroAdapter (first implementation)
 
-1. Copy `article.md` → `hugo_content_dir/posts/`
-2. Copy assets → `hugo_static_dir/images/{slug}/`
-3. Signal: `hugo --minify` (cli) / POST to webhook / call API endpoint
+1. Copy `article.md` → `src/content/posts/`
+2. Copy assets → `public/images/{slug}/`
+3. Signal: `astro build` (cli) / POST to webhook / call API endpoint
 4. Return `PublishResult(url, timestamp)`
-5. `preview_url()` → `http://localhost:1313/posts/{slug}` if dev server running, else `None`
+5. `preview_url()` → `http://localhost:4321/posts/{slug}` if dev server running, else `None`
 
 ## Scheduler
 
