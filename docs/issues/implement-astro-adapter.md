@@ -55,4 +55,4 @@ Implement `preview_url()` to return a local Astro dev server URL if running loca
 
 ## Notes
 
-See `docs/projects/acts-of-defiance/content-guide.md` for Acts of Defiance-specific image size requirements — these must be reflected in the image_slot definitions the adapter expects.
+See `docs/design/aod-visual-design.md` (Image Inventory section) for Acts of Defiance image dimensions and aspect ratios. The hero image slot is `21:9` at `2560×1097`. Card thumbnails are derived from the hero by Astro at build time — no separate thumbnail generation needed. See `docs/design/aod-site-architecture.md` for the Astro Content Collection frontmatter schema.

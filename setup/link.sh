@@ -9,7 +9,7 @@ DIME_OPS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PARENT_DIR="$(dirname "$DIME_OPS_DIR")"
 
 REPOS=("dime" "dime-ui" "acts-of-defiance" "compendium")
-SUBDIRS=("memory" "specs" "decisions" "wireframes" "issues" "projects")
+SUBDIRS=("memory" "specs" "decisions" "design" "wireframes" "issues" "projects")
 
 # Claude Code skill to link per repo (filename in dime-ops/.claude/commands/)
 # Uses a case statement for Bash 3.2 compatibility (macOS default shell).

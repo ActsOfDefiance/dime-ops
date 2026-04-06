@@ -106,3 +106,40 @@ Layered typographic system — three voices working together:
 - Photography is acceptable for documentary/archival content within articles (historical photos with proper attribution)
 - All images must have meaningful alt text (WCAG 2.2 AA requirement)
 - Images optimized via Astro's built-in image optimization (responsive sizing, modern formats)
+
+## Image Inventory
+
+Concrete dimensions and aspect ratios for all image types on the site.
+
+### Hero image (required, 1 per article)
+- **Aspect ratio:** `21:9` (cinematic)
+- **Source resolution:** `2560×1097` (retina), minimum `1920×823`
+- **Format:** WebP primary, JPEG fallback (handled by Astro)
+- **Generator:** Imagen 3, per the art direction above
+- **Usage:** Full-width article header; also source for card thumbnails
+
+### Card thumbnail (derived, not generated separately)
+- **Aspect ratio:** `4:5` (portrait)
+- **Resolution:** `800×1000`
+- **Source:** Cropped from the hero image at build time by Astro's image optimization
+- **Usage:** Article cards on home feed, category pages, related articles
+
+### Inline body images (optional, 0-N per article)
+- **Aspect ratio:** `16:9` or `4:3` — pick one per image based on source
+- **Resolution:** `1600×900` (16:9) or `1200×900` (4:3)
+- **Source:** Historical/archival photography, with attribution — not illustrations
+- **Purpose:** Contextual documentary images within the article body (portraits, historical photos, document scans)
+- **Note:** Distinct from the illustrated brand imagery — e.g., an actual photo of Frantz Fanon rather than an illustration
+
+### Additional Resources (scraped from external sources, not generated)
+- **YouTube thumbnails:** `16:9` at `1280×720` — fetch from YouTube's public thumbnail URLs
+- **Book covers:** `3:4` at `750×1000` — fetch from Google Books, Open Library, or publisher pages
+- **External websites:** favicon (32×32 or 64×64) + optional OpenGraph image (`1200×630`)
+
+### Site branding
+- **Logo (primary):** `logo.jpg` — raised fist with pen, used in header
+- **Favicon set:** `32×32`, `192×192`, `512×512` PNG plus SVG — generate from the logo for browser tabs, PWA, and social sharing
+
+### Dime image_slot schema
+
+The dime AstroAdapter should define image slots with these dimensions. The hero slot is required; additional body image slots are defined per-article by the Writer agent as needed.
