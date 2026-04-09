@@ -2,6 +2,18 @@
 
 These standards apply to all design and development work across the dime ecosystem. Feature workflows and design work must reference and comply with these standards.
 
+## Sub-specs
+
+The design system is split into focused specs that this document references:
+
+- **Typography** → [`typography.md`](./typography.md) — modular scale, fluid type, section head variants, prose contract
+- **Spacing & vertical rhythm** → [`spacing.md`](./spacing.md) — atomic scale, semantic layer, container widths, vertical rhythm
+- **Motion** → [`motion.md`](./motion.md) — brand-named easings, off-grid durations, letterpress + risograph interaction patterns, reduced-motion rules
+- *Layout primitives* — pending (acts-of-defiance#9)
+- *Buttons & links* — pending (acts-of-defiance#10)
+
+When adding new UI, check the relevant sub-spec first. Don't introduce ad-hoc tokens or component variants — extend the spec.
+
 ## Accessibility — WCAG 2.2 (AA)
 
 All user-facing interfaces must meet WCAG 2.2 Level AA compliance. This is not optional and not deferred — it applies from the first component.
