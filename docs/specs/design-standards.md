@@ -9,7 +9,7 @@ The design system is split into focused specs that this document references:
 - **Typography** → [`typography.md`](./typography.md) — modular scale, fluid type, section head variants, prose contract
 - **Spacing & vertical rhythm** → [`spacing.md`](./spacing.md) — atomic scale, semantic layer, container widths, vertical rhythm
 - **Motion** → [`motion.md`](./motion.md) — brand-named easings, off-grid durations, letterpress + risograph interaction patterns, reduced-motion rules
-- *Layout primitives* — pending (acts-of-defiance#9)
+- **Layout primitives** → [`layout.md`](./layout.md) — Container, Stack, Cluster, Grid, Center composable components
 - *Buttons & links* — pending (acts-of-defiance#10)
 
 When adding new UI, check the relevant sub-spec first. Don't introduce ad-hoc tokens or component variants — extend the spec.
