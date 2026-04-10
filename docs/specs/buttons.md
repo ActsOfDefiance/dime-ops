@@ -106,7 +106,7 @@ All non-link variants share the same state pattern:
 | `:hover` | Darkened background (15% toward black) via `color-mix` |
 | `:focus` | `aod-focus-ring` — warm-gold outline + expanding pulse |
 | `:active` | `aod-brand-btn` — 2px press-down + scale(0.98) + plate collapse |
-| `disabled` | 50% opacity, `pointer-events: none` |
+| `disabled` | `pointer-events: none`; CSS variant rules handle visual dimming via `color-mix()` desaturation on `:disabled` and `[aria-disabled="true"]` |
 
 The `link` variant uses `:hover` → underline sweep (warm-gold scale-x from 0→1) instead of background darkening.
 
@@ -124,8 +124,9 @@ The `link` variant uses `:hover` → underline sweep (warm-gold scale-x from 0�
 ## Accessibility
 
 - `<a>` vs `<button>` semantics are enforced by the component — never render a `<button>` as a link or vice versa via role overrides.
+- `<button>` elements default to `type="button"` to prevent accidental form submission when placed inside a `<form>`. Override with `type="submit"` when needed.
 - Focus ring meets AA contrast (warm-gold on all variant backgrounds exceeds 3:1 for the 2px outline).
-- `disabled` on `<a>` elements uses `aria-disabled="true"` (HTML `disabled` is not valid on anchors).
+- `disabled` on `<a>` elements uses `aria-disabled="true"` + `tabindex="-1"` (removes from tab order; HTML `disabled` is not valid on anchors).
 - Touch target minimum 24×24px is met by all sizes.
 
 ---

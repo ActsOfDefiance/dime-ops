@@ -28,12 +28,13 @@ import Container from "../components/layout/Container.astro";
 | Prop | Type | Default | Description |
 |---|---|---|---|
 | `width` | `"reading" \| "hero" \| "content"` | `"content"` | Maps to `max-w-{width}` (consumes `--container-*` tokens) |
+| `padded` | `boolean` | `true` | Whether to apply horizontal padding |
 | `as` | `string` | `"div"` | HTML element to render |
 | `class` | `string` | `""` | Extra classes |
 
-**Generated classes:** `max-w-{width} mx-auto px-container-x md:px-container-x-lg`
+**Generated classes:** `max-w-{width} mx-auto [px-container-x md:px-container-x-lg]` (padding omitted when `padded={false}`)
 
-Container always applies responsive horizontal padding (`24px mobile, 48px tablet+`). If the parent already provides padding, override with `class="!px-0"`.
+Container applies responsive horizontal padding by default (`24px mobile, 48px tablet+`). When a parent already provides padding, use `padded={false}` instead of `class="!px-0"`.
 
 ### Stack
 
