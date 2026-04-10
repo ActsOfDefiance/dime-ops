@@ -10,7 +10,7 @@ The design system is split into focused specs that this document references:
 - **Spacing & vertical rhythm** → [`spacing.md`](./spacing.md) — atomic scale, semantic layer, container widths, vertical rhythm
 - **Motion** → [`motion.md`](./motion.md) — brand-named easings, off-grid durations, letterpress + risograph interaction patterns, reduced-motion rules
 - **Layout primitives** → [`layout.md`](./layout.md) — Container, Stack, Cluster, Grid, Center composable components
-- *Buttons & links* — pending (acts-of-defiance#10)
+- **Buttons & links** → [`buttons.md`](./buttons.md) — Button component (primary, secondary, ghost, link variants), sizes, states, motion
 
 When adding new UI, check the relevant sub-spec first. Don't introduce ad-hoc tokens or component variants — extend the spec.
 
