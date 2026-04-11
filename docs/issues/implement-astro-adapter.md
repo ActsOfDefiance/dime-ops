@@ -26,19 +26,21 @@ Injected at runtime — no hardcoded paths:
 
 ## Frontmatter shape
 
+Agents write the source `art/` filename into frontmatter at authoring time. AstroAdapter rewrites the `images.hero` path to the public destination after copying the image.
+
+**In compendium (written by agents):**
 ```yaml
----
-title: "Article Title"
-date: 2026-03-28
-draft: false
-tags: ["tag1", "tag2"]
 images:
-  hero: "/images/articles/{article_id}/hero.jpg"
-  thumbnail: "/images/articles/{article_id}/thumb.jpg"
-description: "First paragraph or explicit excerpt"
-author: "Acts of Defiance"
----
+  hero: fanz_fanon_landscape.png  # art/ filename — AstroAdapter rewrites this
 ```
+
+**After AstroAdapter runs (what Astro builds from):**
+```yaml
+images:
+  hero: /images/articles/frantz-fanon/hero.png
+```
+
+Card thumbnails are derived from the hero by Astro's `<Image>` component at build time — no separate thumbnail slot needed.
 
 ## Preview support (optional)
 
