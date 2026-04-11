@@ -8,6 +8,7 @@ Deferred architectural and tooling decisions. Each entry has enough context to m
 
 ---
 
+
 ## DECISION-004: Infrastructure provider — GCP vs. managed alternatives
 
 **Decision needed before:** first production deploy

@@ -4,6 +4,28 @@ Architectural and tooling decisions that have been made. Kept for context and ra
 
 ---
 
+## DECISION-012: Content pickup — Astro reads compendium directly at build time
+
+**Decision:** Astro reads markdown directly from `compendium/` at build time. No copy step.
+
+**How:** `astro.config.mjs` points the content collection at the local `compendium/` path (symlink or config). Agents write complete, Astro-compatible frontmatter to `compendium/` from the start. AstroAdapter's role is reduced to: write signal file (and download images — see DECISION-013).
+
+**Why:** Single source of truth. No duplication. Simpler AstroAdapter.
+
+**Future migration (when moving off static site):** Astro reads markdown from a remote git repo (e.g. GitHub API or sparse checkout of compendium). No local filesystem dependency. AstroAdapter becomes a webhook/signal-only operation.
+
+---
+
+## DECISION-013: Image serving — copy from `art/` into Astro site at build time
+
+**Decision:** At build time, images are copied from the local `art/` directory into `acts-of-defiance/public/images/`. Astro's `<Image>` component handles optimization (resize, compress, srcset generation) at build time. Images are served as static assets from whatever hosts the site.
+
+**Why:** Simplest path for the static site phase. No CDN configuration required. Astro image optimization works fully. No runtime GCS dependency.
+
+**Future migration (when moving off static site):** Images served directly from GCS (with CDN in front). Frontmatter references GCS/CDN URLs. AstroAdapter no longer downloads images. This requires CDN setup (fold into DECISION-004 at that time).
+
+---
+
 ## DECISION-001: Content versioning strategy
 
 **Decision:** Option A — filesystem canonical, git as versioning layer.

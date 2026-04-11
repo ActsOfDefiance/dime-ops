@@ -9,19 +9,20 @@
 ## What it does
 
 `AstroAdapter` is the concrete implementation of `PublishingAdapter` for the acts-of-defiance site. It:
-1. Writes the article markdown to the acts-of-defiance `src/content/` directory using Astro Content Collections
-2. Generates Astro Content Collections frontmatter (title, date, tags, image references, etc.) as YAML
-3. Downloads images from GCS and places them in the site public directory (or references GCS URLs directly)
-4. Writes a signal file to trigger Astro rebuild (or triggers a webhook/CI run)
-5. Records the publish event via API
+1. Copies images from the local `art/` directory into `acts-of-defiance/public/images/articles/{article_id}/`
+2. Writes a signal file to trigger an Astro build (or triggers a webhook/CI run)
+3. Records the publish event via API
+
+Markdown is **not** copied — Astro reads it directly from `compendium/` at build time (DECISION-012). AstroAdapter does not touch `src/content/`.
+
+Images are **not** downloaded from GCS — they are read from the local `art/` filesystem (DECISION-013). The Astro `<Image>` component handles resize/optimization at build time.
 
 ## Configuration
 
 Injected at runtime — no hardcoded paths:
-- `acts_of_defiance_content_dir` — path to `acts-of-defiance/src/content/`
+- `art_dir` — path to the local `art/` directory
 - `acts_of_defiance_public_dir` — path to `acts-of-defiance/public/images/`
 - `signal_file_path` — where to write the publish signal
-- `image_source` — GCS bucket URI root
 
 ## Frontmatter shape
 
