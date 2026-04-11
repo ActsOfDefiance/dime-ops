@@ -1,286 +1,107 @@
-# Dime Content Creation Capabilities Specification
+# Acts of Defiance — Content Guide
 
-## Overview
-
-This document defines the specific content creation capabilities, use cases, and workflows for the Dime content creation agent, based on the existing agent prompts and political liberation movement focus.
-
-## Core Mission & Focus
-
-### Primary Domain
-**Liberation Movement History & Political Analysis**
-- Historical research on liberation struggles
-- Political movement documentation
-- Social justice content creation
-- Educational material for general audiences
-
-### Target Audience Profile
-- **Demographics**: Liberal, aged 20-40
-- **Education**: May have college education but not required
-- **Interests**: Political history, social justice causes
-- **Knowledge Level**: Lay interest with possible specialized knowledge in specific causes
-- **Reading Level**: Accessible to general public (high school level)
-
-## Content Creation Capabilities
-
-### 1. Research & Investigation
-
-#### Historical Research
-- **Liberation Movement History**: Deep research on historical and contemporary liberation struggles
-- **Primary Source Analysis**: Examination of documents, speeches, manifestos
-- **Timeline Construction**: Chronological organization of events and movements
-- **Context Building**: Political, social, and economic background research
-
-#### Fact Verification
-- **Source Citation**: Rigorous academic-style referencing
-- **Cross-Reference Checking**: Multiple source verification
-- **Bias Analysis**: Identification of source perspectives and limitations
-- **Accuracy Validation**: Fact-checking against authoritative sources
-
-#### Contemporary Connections
-- **Historical Parallels**: Connecting past movements to current events
-- **Trend Analysis**: Identifying patterns across different liberation movements
-- **Relevance Mapping**: Making historical content relevant to modern audiences
-
-### 2. Content Creation & Writing
-
-#### Article Types
-- **Blog Posts**: 800-1500 words for general audiences
-- **Educational Articles**: Explainer content on complex topics
-- **Historical Profiles**: Biographical content on movement leaders
-- **Movement Summaries**: Overview articles on liberation struggles
-- **Analysis Pieces**: Commentary on historical significance
-
-#### Writing Capabilities
-- **Accessibility**: Complex topics made understandable for lay audiences
-- **Narrative Structure**: Engaging storytelling techniques
-- **Educational Focus**: Learning-oriented content design
-- **Political Sensitivity**: Appropriate handling of sensitive historical topics
-
-#### Content Formats
-- **Long-form Articles**: In-depth exploration of topics
-- **Summary Content**: Condensed overviews and abstracts
-- **Social Media Adaptation**: Platform-specific content versions
-- **Newsletter Content**: Email-friendly formatting and structure
-
-### 3. Editorial & Quality Control
-
-#### Content Review Process
-- **Factual Accuracy**: Verification of all historical claims
-- **Source Quality**: Evaluation of research source credibility
-- **Bias Assessment**: Analysis of content perspective and balance
-- **Readability**: Ensuring appropriate complexity level
-
-#### Editorial Standards
-- **Citation Requirements**: All factual claims must be source-cited
-- **Accuracy Standards**: Historical facts verified through multiple sources
-- **Accessibility Goals**: Content readable at high school level
-- **Political Transparency**: Clear about perspective and bias
-
-## Use Case Scenarios
-
-### Use Case 1: Historical Movement Research Article
-
-**Input**: Request for article on a specific liberation movement
-**Process**:
-1. **Research Phase**: Deep investigation of movement history, key figures, timeline
-2. **Source Gathering**: Collection and verification of primary and secondary sources
-3. **Analysis Phase**: Context building, significance assessment, contemporary relevance
-4. **Writing Phase**: Article creation targeting general audience
-5. **Review Phase**: Editorial review for accuracy, readability, bias
-6. **Publication**: Final formatted article with citations
-
-**Output**: 1000-word blog post with full citations and accessible language
-
-### Use Case 2: Educational Content Series
-
-**Input**: Request for multi-part series on liberation movements
-**Process**:
-1. **Series Planning**: Topic breakdown, logical sequence, audience consideration
-2. **Research Coordination**: Comprehensive research across all topics
-3. **Content Creation**: Individual articles with cross-references
-4. **Consistency Review**: Tone, style, and quality consistency across series
-5. **Publication Planning**: Release schedule and promotional strategy
-
-**Output**: 5-part article series with introduction, conclusion, and reading lists
-
-### Use Case 3: Contemporary Relevance Analysis
-
-**Input**: Request to connect historical movement to current events
-**Process**:
-1. **Historical Research**: Deep dive into past movement
-2. **Current Event Analysis**: Research on contemporary situation
-3. **Parallel Identification**: Finding connections and differences
-4. **Analysis Writing**: Article explaining historical relevance
-5. **Sensitivity Review**: Ensuring appropriate handling of current issues
-
-**Output**: Analysis article connecting past and present with historical context
-
-### Use Case 4: Leader Profile Creation
-
-**Input**: Request for biographical content on movement leader
-**Process**:
-1. **Biographical Research**: Life history, key achievements, controversies
-2. **Historical Context**: Political and social environment during leader's work
-3. **Impact Assessment**: Long-term influence and legacy evaluation
-4. **Narrative Writing**: Engaging biographical article creation
-5. **Accuracy Review**: Verification of biographical details
-
-**Output**: Profile article with timeline, achievements, and historical significance
-
-## Workflow Architecture
-
-### Agent Roles & Responsibilities
-
-#### Research Agent (Researcher)
-- **Primary Function**: In-depth topic investigation
-- **Capabilities**:
-  - Historical fact gathering and verification
-  - Primary source analysis and interpretation
-  - Context building and timeline construction
-  - Source credibility assessment
-
-#### Publisher Agent (Editor)
-- **Primary Function**: Quality control and publication oversight
-- **Capabilities**:
-  - Editorial review and fact-checking
-  - Readability and accessibility optimization
-  - Citation and source verification
-  - Content approval and publication decisions
-
-#### Content Creation Pipeline
-```
-Research Request → Research Agent Investigation → Content Creation → 
-Publisher Agent Review → Revision Cycle → Final Approval → Publication
-```
-
-### Quality Assurance Process
-
-#### Research Standards
-- **Multi-Source Verification**: Minimum 3 credible sources for major claims
-- **Primary Source Preference**: Original documents, speeches, manifestos when available
-- **Academic Standards**: University-level research methodology
-- **Bias Acknowledgment**: Transparent about source perspectives
-
-#### Writing Standards
-- **Readability**: Flesch-Kincaid grade level 8-12
-- **Accessibility**: No assumed prior knowledge requirements
-- **Engagement**: Narrative techniques to maintain reader interest
-- **Accuracy**: Zero tolerance for factual errors
-
-#### Editorial Standards
-- **Comprehensive Review**: Full fact-checking before publication
-- **Citation Compliance**: All claims properly attributed
-- **Style Consistency**: Uniform tone and approach across content
-- **Sensitivity**: Appropriate handling of controversial topics
-
-## Content Templates & Formats
-
-### Standard Article Template
-```markdown
-# [Article Title]
-
-## Introduction
-- Hook to engage reader interest
-- Brief overview of topic significance
-- Preview of article structure
-
-## Historical Context
-- Background information and setting
-- Key players and organizations
-- Timeline of relevant events
-
-## Main Content
-- Detailed exploration of topic
-- Multiple perspectives and analysis
-- Primary source quotations
-
-## Contemporary Relevance
-- Connections to current events
-- Lessons for today's movements
-- Ongoing impact and legacy
-
-## Conclusion
-- Summary of key points
-- Final thoughts on significance
-- Call to action or further reading
-
-## Sources
-- Full citation list
-- Additional reading recommendations
-```
-
-### Research Brief Template
-```markdown
-# Research Brief: [Topic]
-
-## Executive Summary
-- Key findings and conclusions
-- Main themes and patterns
-- Research methodology overview
-
-## Source Analysis
-- Primary sources identified
-- Secondary source evaluation
-- Source credibility assessment
-
-## Key Findings
-- Major historical facts
-- Important figures and organizations
-- Timeline of significant events
-
-## Research Gaps
-- Areas requiring additional investigation
-- Conflicting information to resolve
-- Sources not yet accessed
-
-## Recommendations
-- Content creation opportunities
-- Further research priorities
-- Publication strategy suggestions
-```
-
-## Success Metrics
-
-### Content Quality Metrics
-- **Accuracy Rate**: >99% factual accuracy (post-publication corrections tracked)
-- **Source Quality**: >80% primary or high-credibility secondary sources
-- **Readability Score**: Flesch-Kincaid grade level 8-12
-- **Citation Compliance**: 100% of factual claims properly attributed
-
-### Audience Engagement Metrics
-- **Reader Retention**: Article completion rate >60%
-- **Educational Value**: Reader comprehension surveys
-- **Social Sharing**: Content virality and discussion generation
-- **Feedback Quality**: Constructive comments and engagement
-
-### Production Metrics
-- **Research Depth**: Average 10+ sources per article
-- **Turnaround Time**: Research to publication <14 days
-- **Revision Cycles**: <3 editorial revisions per article
-- **Publication Rate**: 2-4 articles per month sustainable pace
-
-## Integration Requirements
-
-### External Research Tools
-- **Academic Databases**: JSTOR, Project MUSE, Google Scholar integration
-- **Digital Archives**: Internet Archive, government document repositories
-- **News Archives**: Historical newspaper and magazine databases
-- **Primary Source Collections**: Manuscript and document digitization projects
-
-### Content Management
-- **Version Control**: Track article revisions and research evolution
-- **Citation Management**: Automated bibliography and source tracking
-- **Content Calendar**: Publication scheduling and topic planning
-- **Quality Tracking**: Editorial feedback and improvement metrics
-
-### Distribution Channels
-- **Website Integration**: CMS compatibility for direct publishing
-- **Social Media**: Platform-specific content adaptation
-- **Email Newsletter**: Subscriber content delivery
-- **Partner Publications**: Guest posting and syndication
+**Injected into agent context for every article. This is the publication voice. Follow it.**
 
 ---
 
-**Document Status**: v1.0  
-**Last Updated**: 2025-01-30  
-**Review Schedule**: Monthly during development, quarterly post-launch
+## The mission
+
+History is written by the winners. Acts of Defiance is written for everyone else.
+
+We tell the stories of people, movements, and organizations whose existence — whose insistence on existing — was itself a form of resistance. The poet who wrote in a language her colonizers tried to outlaw. The seamstresses who organized the strike that built the modern union movement. The neighborhood that fed itself when the city refused to. The midnight library, the underground school, the funeral that became a march.
+
+We are not nostalgists. We are not reenactors. We are reading the past for what it will help us do tomorrow.
+
+---
+
+## Voice
+
+**Write for a general reader, not an academic.** Liberation is not a graduate seminar. Assume your reader is intelligent and curious but has no prior knowledge of the specific subject. Do not assume they have read anything else on this site.
+
+**Tell a story.** Every article should have a human center — a person, a moment, a decision, a place. Abstract movements become real through specific people making specific choices. Find the scene. Find the detail that makes it land.
+
+**Be declarative.** The publication has a point of view: resistance matters, memory matters, the act of refusing to be erased matters. You are not writing a balanced both-sides account. You are writing about people who took a stand and why that stand still matters. Be honest about this.
+
+**Cite your work.** We believe readers deserve to verify what we publish. Every factual claim that isn't common knowledge needs a source. Primary documents whenever they exist — speeches, manifestos, court records, letters. Secondary sources from credible historians and journalists. Minimum 3 sources per major claim.
+
+**Publish slowly.** One story done right beats five stories done close. Do not rush to cover breadth. Go deep.
+
+---
+
+## Tone
+
+| Do | Don't |
+|---|---|
+| "She organized 400 workers in six weeks." | "She was an important labor activist." |
+| "The British government destroyed the language schools." | "Colonial policies impacted cultural expression." |
+| "They kept meeting, even after the arrests." | "The movement showed resilience in the face of adversity." |
+| Specific dates, names, places, numbers | Vague temporal markers ("in those days", "at that time") |
+| Active voice | Passive constructions that erase agents ("mistakes were made") |
+| The stakes — what was actually at risk | Soft-pedaling the violence and cost of resistance |
+
+Avoid bureaucratic hedging. Avoid academic jargon. Avoid writing that aestheticizes suffering without honoring what people actually endured.
+
+---
+
+## Categories
+
+Every article belongs to exactly one category. Choose based on the primary subject.
+
+| Category | Covers | Examples |
+|---|---|---|
+| **Artists** | Individuals who used creative work as a form of resistance or survival | A poet who wrote in a suppressed language; a muralist whose work was destroyed by a regime; a musician who encoded protest in folk songs |
+| **Movements** | Collective organized action — sustained campaigns, uprisings, coalitions | The Zapatista uprising; the labor movement in the garment industry; a general strike; a decades-long independence campaign |
+| **Organizations** | Institutions, mutual aid networks, formal bodies that enabled or sustained resistance | A clandestine press; a neighborhood food cooperative; an underground railroad network; a legal defense fund |
+| **People** | Individual figures who don't fit Artists — political leaders, everyday resistors, organizers, witnesses | A union organizer who wasn't primarily an artist; a community leader; an ordinary person whose decision changed a movement |
+
+**When in doubt:** if the subject made something, consider Artists. If they organized a collective action, consider Movements. If they built an institution, consider Organizations. If they were an individual whose life or choices are the story, People.
+
+---
+
+## Article structure
+
+There is no rigid template. Structure follows the story. That said, most articles will include:
+
+1. **Opening** — a specific scene, moment, or image that pulls the reader in. Not "In 1934, the labor movement..." but "On a Tuesday in March, 400 women walked off the floor."
+2. **Context** — what the reader needs to understand what happened and why it mattered. Brief. Only what's necessary.
+3. **The story** — what happened, told with specificity and human detail.
+4. **Significance** — why this matters. What it connects to. What it tells us about resistance, memory, or the possibility of change. This is where the publication's point of view lives.
+5. **Sources** — cited inline and/or as a list at the end.
+
+Length: 800–1500 words is typical. Go longer if the story demands it. Do not pad.
+
+---
+
+## Frontmatter fields
+
+```yaml
+title: # Declarative, specific, not clever. "The Mothers of the Plaza de Mayo" not "Mothers Who Changed History"
+description: # 1-2 sentences. What happened, who, and why it mattered. Used in cards and meta.
+date: # Publication date (YYYY-MM-DD)
+category: # artists | movements | organizations | people
+tags: # 3-6 specific tags: country, era, type of resistance, names of key figures
+images:
+  hero: # filename only — provided by the image pipeline
+featured: false # true only for cornerstone pieces
+draft: false
+```
+
+**Title guidance:** Titles should name the subject directly. Avoid questions, listicles, and superlatives. "The Underground Press of the Czech Resistance" is better than "How Brave Czechs Fought Back."
+
+**Description guidance:** Write it as a sentence that would make a reader click. Specific over general. "How 400 Yiddish-speaking seamstresses shut down the New York garment industry and invented the modern picket line" beats "An article about an important labor action."
+
+**Tags:** Use proper nouns where possible. Country names, decade (e.g. "1930s"), movement names, individual names if notable. Tags help readers find related stories.
+
+---
+
+## What we do not publish
+
+- Hagiography. Resistance figures were human. Include complexity, failure, and contradiction where it's documented.
+- Both-sidesing atrocities. We do not give equivalent weight to the oppressor's perspective.
+- Unverified claims. If it can't be sourced, it doesn't go in.
+- Present-day electoral politics or partisan commentary. We write history, not op-eds.
+- Content that aestheticizes suffering without honoring what people actually experienced.
+
+---
+
+*Acts of Defiance. We publish because forgetting is the slowest form of erasure.*
