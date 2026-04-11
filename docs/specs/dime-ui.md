@@ -9,24 +9,28 @@ Reference wireframes: `docs/wireframes/dime-ui-chat-panes.html`
 ## Layout
 
 - **Top bar:** project name / article title / current state badge / user avatar
-- **Left pane:** chat history + message input + approve/reject buttons (visible at all checkpoints)
+- **Left pane:** chat history + message input + checkpoint actions (approve / retry / reject — visible at all active checkpoints)
 - **Right pane:** state-driven contextual content — the active component changes based on `article.state`
 
-The approve/reject actions live in the left pane, not the right. The right pane is for content; the left is for decisions and conversation.
+The checkpoint actions live in the left pane, not the right. The right pane is for content; the left is for decisions and conversation. Retry and reject include a text input for human feedback/instructions.
 
 ## Right Pane by State
 
 | State | Right pane component |
 |---|---|
 | `researching` | Live streaming research output |
-| `research_review` | Research notes viewer, inline editor, sources list, raw .md tab |
+| `researching_review` | Research notes viewer, inline editor, sources list, raw .md tab |
+| `researching_revision` | Live streaming revision with feedback context visible |
 | `writing` | Live streaming draft output |
-| `draft_review` | Rich text editor (markdown-backed), article preview |
+| `writing_review` | Rich text editor (markdown-backed), article preview |
+| `writing_revision` | Live streaming revision with feedback context visible |
 | `art_briefing` | Live brief generation |
-| `art_review` | Prompt editor with style guide constraints visible |
-| `art_generating` | Image studio: prompt editor, variant grid, compare, select |
+| `art_briefing_review` | Prompt editor with style guide constraints visible |
+| `art_briefing_revision` | Live streaming revision with feedback context visible |
+| `image_generating` | Image studio: prompt editor, variant grid, compare, select |
+| `image_review` | Image review: all slots at intended sizes, approve/retry/reject per slot |
+| `image_revision` | Image studio re-generation with feedback context visible |
 | `final_review` | Package Dashboard — rendered article + images at slot sizes + metadata editor |
-| `approved` | Package summary + publish controls (schedule / publish now) |
 
 ## API Contract
 
@@ -35,7 +39,7 @@ The frontend only needs three things:
 2. Content payload for the current state — returned with the article
 3. WebSocket event stream — agent progress, state changes, task completion, notifications
 
-REST endpoints: CRUD for articles, projects, users; checkpoint actions (approve / reject / edit).
+REST endpoints: CRUD for articles, projects, users; checkpoint actions (approve / retry / reject with feedback).
 
 The Svelte app never imports dime Python code or business logic.
 

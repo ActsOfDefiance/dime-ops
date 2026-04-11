@@ -2,47 +2,92 @@
 
 ## States
 
+### Core states (always present)
+
 ```
 queued
-  → researching          (worker: ResearchAgent)
-  → research_review      (human checkpoint ✋)
-  → writing              (worker: WriterAgent)
-  → draft_review         (human checkpoint ✋)
-  → art_briefing         (worker: ArtDirectorAgent) [can run parallel to draft_review]
-  → art_review           (human checkpoint ✋)
-  → art_generating       (worker: ImageAgent — interactive, human iterates in UI)
-  → final_review         (human checkpoint ✋)
-  → approved
-  → publishing           (PublishingAdapter.publish())
+  → researching              (worker: ResearchAgent)
+  → writing                  (worker: WriterAgent)
+  → art_briefing             (worker: ArtDirectorAgent)
+  → image_generating         (worker: ImageAgent)
+  → publishing               (PublishingAdapter.publish())
   → published
+  ↘ failed                   (reachable from any in-progress state)
+  ↘ archived                 (terminal)
 ```
 
-## Human Checkpoints
+### Checkpoint states (configurable per-project)
 
-At each `*_review` state the pipeline blocks until the human acts. Actions available at every checkpoint:
+After each agent phase, the pipeline can optionally pause at a review checkpoint. Which checkpoints are active is controlled by `workflow_config.checkpoints` — see [dime-data-model.md](dime-data-model.md).
 
-- **Approve** — advance to next state
-- **Reject** — return to a specified prior state
-- **Edit inline** — modify the artifact in the right pane directly
-- **Chat** — ask dime to make changes (dispatches a new bounded agent task)
+```
+researching → [researching_review] → writing → [writing_review] →
+art_briefing → [art_briefing_review] → image_generating → [image_review] →
+[final_review] → publishing → published
+```
 
-## Special Cases
+`[ ]` = configurable checkpoint. When disabled, the pipeline advances automatically.
 
-**`art_generating` is semi-interactive.** Unlike other agent states that run and hand off, the human stays here to iterate on prompts, generate variants, and compare results before advancing to `final_review`. Multiple generation rounds happen within this single state.
+### Revision states (entered via retry)
 
-**Parallel execution.** `art_briefing` can begin while the human is in `draft_review`. The art director reads the current draft and generates prompts in the background. The human sees the brief ready when they finish with the draft.
+When a human retries at a checkpoint, the article enters a revision state. The same agent re-runs with the original artifact plus the human's feedback, producing a modified artifact.
 
-**Re-entry after publish.**
-- `published → draft_review`: update the article
-- `published → approved`: unpublish (removes from publish queue, content stays in compendium)
+```
+researching_revision
+writing_revision
+art_briefing_revision
+image_revision
+```
+
+## Checkpoint Actions
+
+At every active checkpoint, the human has three actions:
+
+### Approve
+Advance to the next state. The artifact is accepted as-is.
+
+### Retry
+**Modifies the current artifact.** The human provides feedback describing what should change. The article enters `{phase}_revision` — the same agent re-runs with the existing artifact plus feedback injected as context. The agent edits the artifact (not starting over). After revision, the article returns to the same checkpoint for another review.
+
+Transitions: `{phase}_review` → `{phase}_revision` → `{phase}_review`
+
+### Reject
+**Starts the phase from scratch.** The human provides rejection reasons and instructions for doing it better. The article re-enters the original `{phase}` state — the agent runs fresh with the rejection context (why it was rejected, what to do differently). A new artifact is produced. After completion, the article returns to the same checkpoint.
+
+Transitions: `{phase}_review` → `{phase}` → `{phase}_review`
+
+### Retry vs Reject summary
+
+| Action | Agent receives | Artifact | Result |
+|---|---|---|---|
+| Retry | Current artifact + edit feedback | Modified in place | Returns to checkpoint |
+| Reject | Rejection reasons + instructions | New from scratch | Returns to checkpoint |
+
+## Sequential Execution
+
+All phases execute sequentially. Art briefing must complete before image generation begins — the brief is the input to the image agent. There is no parallel execution between phases.
 
 ## Final Review — Package Dashboard
 
-`final_review` does not render a site preview (dime is decoupled from the CMS). Instead it shows a Package Dashboard:
+`final_review` is a whole-package checkpoint. It does not render a site preview (dime is decoupled from the CMS). Instead it shows a Package Dashboard:
 
 - Rendered markdown (dime's own renderer)
 - Images at intended slot sizes with slot labels
 - Frontmatter / metadata editor
 - Raw markdown (collapsible)
 
+At `final_review`, retry and reject target a specific prior phase (the human chooses which phase to send back to). This allows catching issues in any part of the package.
+
 If the active `PublishingAdapter` implements `preview_url()` and a dev server is running, an optional live preview link is surfaced. This is progressive enhancement — never required.
+
+## Re-entry After Publish
+
+- `published → writing_review`: update the article (re-enters the writing checkpoint)
+- `published → publishing`: republish with updated metadata only
+- `published → archived`: remove from publish queue (content stays in compendium)
+
+## Error Handling
+
+- `failed` is reachable from any in-progress or revision state
+- A failed article can be retried from the state it failed in, or sent back to an earlier state
+- `archived` is terminal — no transitions out

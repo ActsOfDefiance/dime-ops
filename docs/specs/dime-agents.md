@@ -31,6 +31,7 @@ Each agent receives only the tools relevant to its task. `ResearchAgent` has no 
 
 ## Task Lifecycle
 
+### First pass
 ```
 Broker dispatches: {"type": "research", "article_id": "..."}
   → Worker picks up task
@@ -38,11 +39,31 @@ Broker dispatches: {"type": "research", "article_id": "..."}
   → Streams progress events to broker → API → WebSocket → UI
   → Writes output to filesystem via FileSystemAdapter
   → Updates article state in DB
-  → Emits: {"article_id": "...", "state": "research_review"}
+  → Emits: {"article_id": "...", "state": "researching_review"}
   → Task complete. Worker exits.
 ```
 
-Human approves in UI → API dispatches next task → next agent runs.
+Human reviews → approve / retry / reject.
+
+### Revision (retry)
+```
+Broker dispatches: {"type": "research.revise", "article_id": "...", "feedback": "..."}
+  → Worker picks up task
+  → Agent runs with existing artifact + human feedback as context
+  → Agent modifies the artifact (not starting fresh)
+  → Updates article state → back to checkpoint
+```
+
+### Rejection (reject)
+```
+Broker dispatches: {"type": "research", "article_id": "...", "rejection": {"reasons": "...", "instructions": "..."}}
+  → Worker picks up task
+  → Agent runs fresh with rejection context
+  → Produces a new artifact from scratch
+  → Updates article state → back to checkpoint
+```
+
+All phases execute sequentially. Art briefing completes before image generation begins.
 
 ## Publishing Adapter Protocol
 
