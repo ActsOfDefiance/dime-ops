@@ -12,11 +12,12 @@ A live Acts of Defiance publication. Content flows from dime through the Astro a
 
 ### Site setup
 - [ ] [set-up-acts-of-defiance-site.md](set-up-acts-of-defiance-site.md) — Astro scaffold with Svelte 5, content collections, local preview
-- [ ] [build-category-pages.md](build-category-pages.md) — `/artists`, `/movements`, `/organizations`, `/people` landing pages
-- [ ] [build-about-page.md](build-about-page.md) — `/about` page (destination for the home hero CTA)
+- [x] [build-category-pages.md](build-category-pages.md) — `/artists`, `/movements`, `/organizations`, `/people` landing pages
+- [x] [build-about-page.md](build-about-page.md) — `/about` page (destination for the home hero CTA)
 - [ ] [wire-nav-links.md](wire-nav-links.md) — verification pass: no `href="#"` placeholders, no 404s, active state works on every page
 
 ### Publishing integration
+- [ ] [wire-content-pipeline-to-astro.md](wire-content-pipeline-to-astro.md) — point content collections at compendium/, copy images from art/, `bun run build` produces a site with real content (#20)
 - [ ] Verify AstroAdapter output matches Astro content collection structure (depends on: implement-astro-adapter in epic-dime-core)
 - [ ] End-to-end test: dime emits article → acts-of-defiance builds → site renders correctly
 - [ ] Configure image sizes and crop targets for Acts of Defiance (feeds back to image_slot config in dime)
