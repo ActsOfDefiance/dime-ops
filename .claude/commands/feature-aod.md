@@ -237,13 +237,26 @@ Create an action plan. Ask: "Approve this plan to address review comments? (yes/
 4. Resolve review threads via GraphQL
 5. Go back to Step 10a
 
-### Step 11: Merge & Checkout develop
+### Step 11: Merge & Close Issue
 
-```bash
-gh pr merge [PR_NUMBER] --squash --delete-branch
-git checkout develop
-git pull origin develop
-```
+1. **Merge the PR**:
+   ```bash
+   gh pr merge [PR_NUMBER] --squash --delete-branch
+   ```
+
+2. **Close the GitHub issue**:
+   ```bash
+   gh issue close {ISSUE_NUMBER} --repo ActsOfDefiance/acts-of-defiance --comment "Completed in PR #[PR_NUMBER]."
+   ```
+
+3. **Mark the issue done in the local epic file** (`docs/issues/epic-acts-of-defiance.md`):
+   - Find the sub-issue line and change `- [ ]` to `- [x]`
+
+4. **Checkout develop**:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   ```
 
 Display completion summary.
 

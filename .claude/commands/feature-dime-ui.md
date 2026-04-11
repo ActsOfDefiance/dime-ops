@@ -335,7 +335,17 @@ Create an action plan. Ask: "Approve this plan to address review comments? (yes/
 gh pr merge [PR_NUMBER] --squash --delete-branch
 ```
 
-### Step 14: Checkout develop & Pull Latest
+### Step 14: Close Issue
+
+1. **Close the GitHub issue**:
+   ```bash
+   gh issue close {ISSUE_NUMBER} --repo ActsOfDefiance/dime-ui --comment "Completed in PR #[PR_NUMBER]."
+   ```
+
+2. **Mark the issue done in the local epic file** (`docs/issues/epic-dime-ui.md`):
+   - Find the sub-issue line and change `- [ ]` to `- [x]`
+
+### Step 15: Checkout develop & Pull Latest
 
 ```bash
 git checkout develop

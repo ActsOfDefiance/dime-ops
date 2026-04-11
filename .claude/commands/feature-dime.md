@@ -404,7 +404,26 @@ Create an action plan. Ask: "Approve this plan to address review comments? (yes/
    - Remote branch deleted
    ```
 
-### Step 14: Checkout develop & Pull Latest
+### Step 14: Close Issue
+
+1. **Close the GitHub issue**:
+   ```bash
+   gh issue close {ISSUE_NUMBER} --repo ActsOfDefiance/dime --comment "Completed in PR #[PR_NUMBER]."
+   ```
+
+2. **Mark the issue done in the local epic file** (`docs/issues/epic-dime-core.md`):
+   - Find the sub-issue line for this issue and change `- [ ]` to `- [x]`
+
+3. Display confirmation:
+   ```
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   Step 14: Complete
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   - GitHub issue #{ISSUE_NUMBER} closed
+   - Local epic updated
+   ```
+
+### Step 15: Checkout develop & Pull Latest
 
 ```bash
 git checkout develop
