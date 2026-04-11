@@ -12,6 +12,9 @@ A live Acts of Defiance publication. Content flows from dime through the Astro a
 
 ### Site setup
 - [ ] [set-up-acts-of-defiance-site.md](set-up-acts-of-defiance-site.md) — Astro scaffold with Svelte 5, content collections, local preview
+- [ ] [build-category-pages.md](build-category-pages.md) — `/artists`, `/movements`, `/organizations`, `/people` landing pages
+- [ ] [build-about-page.md](build-about-page.md) — `/about` page (destination for the home hero CTA)
+- [ ] [wire-nav-links.md](wire-nav-links.md) — verification pass: no `href="#"` placeholders, no 404s, active state works on every page
 
 ### Publishing integration
 - [ ] Verify AstroAdapter output matches Astro content collection structure (depends on: implement-astro-adapter in epic-dime-core)
@@ -31,6 +34,10 @@ A live Acts of Defiance publication. Content flows from dime through the Astro a
 ```
 set-up-acts-of-defiance-site
     ↓ (parallel)
+build-category-pages + build-about-page
+    ↓
+wire-nav-links (cleanup)
+    ↓ (parallel with adapter work)
 verify AstroAdapter output + configure image sizes
 review content guide
     ↓
