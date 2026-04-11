@@ -4,7 +4,7 @@
 **Priority:** high
 **Repo:** dime
 **Epic:** epic-dime-core
-**Blocked by:** implement-adapters (AstroAdapter implements PublishingAdapter Protocol)
+**Depends on:** implement-adapters (#15, closed) — unblocked
 
 ## What it does
 
