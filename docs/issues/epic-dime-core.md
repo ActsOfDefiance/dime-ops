@@ -18,8 +18,8 @@ A working content pipeline: from project creation through research, writing, art
 - [x] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Astro signal), NotificationAdapter
 
 ### API layer
-- [ ] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint
-- [ ] [implement-pipeline.md](implement-pipeline.md) — 11-state machine, human checkpoint gates, worker dispatch via broker
+- [x] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint
+- [ ] [implement-pipeline.md](implement-pipeline.md) — configurable checkpoint state machine (approve/retry/reject), revision states, worker dispatch via broker
 
 ### Agent layer (depends on: adapters + pipeline)
 - [ ] [write-agent-prompts.md](write-agent-prompts.md) — existing ticket; prompts for all 4 LLM agents
@@ -36,11 +36,11 @@ A working content pipeline: from project creation through research, writing, art
 ## Order
 
 ```
-implement-db-schema
-implement-adapters (BrokerAdapter + FileSystemAdapter first)
+implement-db-schema ✓
+implement-adapters ✓
     ↓
-implement-api-layer
-implement-pipeline
+implement-api-layer ✓
+implement-pipeline (configurable checkpoints, approve/retry/reject, revision states)
     ↓
 write-agent-prompts
     ↓
