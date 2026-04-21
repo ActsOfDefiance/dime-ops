@@ -12,7 +12,7 @@ type: user
 
 **No React under any circumstances.** This is a hard constraint.
 
-**Workflow style:** Prefers native local dev (existing local Postgres/Redis/Hugo — no Docker overhead day-to-day). Docker Compose is acceptable as opt-in for onboarding/CI.
+**Workflow style:** Prefers native local dev (existing local Postgres/Redis/Astro — no Docker overhead day-to-day). Docker Compose is acceptable as opt-in for onboarding/CI.
 
 **Cost sensitivity:** Early stage, pre-funding. ~$25-30/month GCP acceptable. Prefers single billing stack (GCP) over spreading across providers unless cost is prohibitive.
 

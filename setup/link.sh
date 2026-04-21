@@ -9,7 +9,18 @@ DIME_OPS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PARENT_DIR="$(dirname "$DIME_OPS_DIR")"
 
 REPOS=("dime" "dime-ui" "acts-of-defiance" "compendium")
-SUBDIRS=("memory" "specs" "decisions" "wireframes" "issues" "projects")
+SUBDIRS=("memory" "specs" "decisions" "design" "wireframes" "issues" "projects")
+
+# Claude Code skill to link per repo (filename in dime-ops/.claude/commands/)
+# Uses a case statement for Bash 3.2 compatibility (macOS default shell).
+get_skill_file() {
+  case "$1" in
+    "dime")           echo "feature-dime.md" ;;
+    "dime-ui")        echo "feature-dime-ui.md" ;;
+    "acts-of-defiance") echo "feature-aod.md" ;;
+    *)                echo "" ;;
+  esac
+}
 
 ok=0; skipped=0; updated=0; warned=0
 
@@ -71,6 +82,11 @@ for repo in "${REPOS[@]}"; do
     create_symlink "$DIME_OPS_DIR/docs/$subdir" "$repo_dir/docs/$subdir"
   done
   ensure_claudeignore "$repo_dir"
+  skill_file=$(get_skill_file "$repo")
+  if [ -n "$skill_file" ]; then
+    create_symlink "$DIME_OPS_DIR/.claude/commands/$skill_file" "$repo_dir/.claude/commands/$skill_file"
+  fi
+  create_symlink "$DIME_OPS_DIR/.claude/tools" "$repo_dir/.claude/tools"
   echo ""
 done
 

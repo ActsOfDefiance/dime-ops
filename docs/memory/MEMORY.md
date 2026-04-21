@@ -6,3 +6,6 @@
 - [Collaboration style](feedback_collaboration.md) — when user asks to discuss, actually discuss — do NOT skip to writing decisions
 - [Issues workflow](feedback_issues_workflow.md) — local markdown for planning, sync to GitHub when ready
 - [Local config](local_config.md) — GCP project ID and machine-local values; **gitignored in dime-ops, never committed** to work
+- [Licensing policy](project_licensing.md) — GPLv3 for all repos except art/images
+- [PM language](feedback_pm_language.md) — use "we" language, never individual names in process/playbook docs
+- [Env vars always required](feedback_env_vars_always_required.md) — all env vars are always present; don't add fallbacks or optional handling for settings already declared required in `DimeSettings`

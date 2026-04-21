@@ -13,7 +13,7 @@ PostgreSQL schema. Content blobs do **not** live in the database — the filesys
 | style_guide | jsonb | image slots (name, width, height, format), style tokens, palette |
 | content_guide | jsonb | editorial config: audience, tone, voice, quality standards — injected into WriterAgent and ResearchAgent context |
 | workflow_config_id | uuid fk | → workflow_config |
-| default_adapter | text | registered adapter key e.g. `"hugo"` |
+| default_adapter | text | registered adapter key e.g. `"astro"` |
 | created_at | timestamptz | |
 
 `content_guide` shape (editable per project — different publications have different voices):
@@ -63,6 +63,8 @@ PostgreSQL schema. Content blobs do **not** live in the database — the filesys
 | id | uuid pk | |
 | article_id | uuid fk | → article |
 | state_at_checkpoint | enum | |
+| action | enum null | `approve`, `retry`, `reject` — null for non-checkpoint states |
+| feedback | text null | human's notes for retry (edit instructions) or reject (reasons + instructions for next attempt) |
 | git_commit_hash | text null | populated when VersioningAdapter is GitAdapter |
 | content_snapshot | text null | populated only at publish time (forensic copy) |
 | created_by | uuid fk | → user |
@@ -134,12 +136,13 @@ Seeded from `project.style_guide` when article is created.
 `checkpoints` shape:
 ```json
 {
-  "research_review":  { "required": true, "assignee_role": "owner" },
-  "draft_review":     { "required": true, "assignee_role": "editor" },
-  "art_review":       { "required": true, "assignee_role": "owner" },
-  "final_review":     { "required": true, "assignee_role": "editor" },
-  "auto_publish":     false
+  "researching_review":     { "required": true, "assignee_role": "owner" },
+  "writing_review":         { "required": true, "assignee_role": "editor" },
+  "art_briefing_review":    { "required": true, "assignee_role": "owner" },
+  "image_review":           { "required": true, "assignee_role": "owner" },
+  "final_review":           { "required": true, "assignee_role": "editor" },
+  "auto_publish":           false
 }
 ```
 
-Setting `"required": false` on any checkpoint causes dime to advance automatically — useful when you trust agent output for a given stage.
+Setting `"required": false` on any checkpoint causes dime to skip it and advance automatically — useful when you trust agent output for a given stage. At every active checkpoint, the human can **approve** (advance), **retry** (revise artifact with feedback), or **reject** (restart phase from scratch with instructions). See [dime-pipeline.md](dime-pipeline.md) for full checkpoint action semantics.

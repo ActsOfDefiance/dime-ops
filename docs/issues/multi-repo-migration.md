@@ -20,14 +20,14 @@ Currently all work lives in a single local directory (`ActsOfDefiance/`). The ag
 
 ## Tasks
 
-- [ ] Create `dime-ops` repo (see create-dime-ops-repo issue)
-- [ ] Push `dime/` history to `github.com/ActsOfDefiance/dime`
-- [ ] Push `acts_of_defiance/` history to `github.com/ActsOfDefiance/acts-of-defiance`
-- [ ] Push `compendium/` history to `github.com/ActsOfDefiance/compendium`
-- [ ] Remove `acts_of_defiance.old/` — abandoned Django app, no value
-- [ ] Run `dime-ops/setup/link.sh` to create symlinks in all repos
-- [ ] Run `dime-ops/setup/doctor.sh` to verify everything is connected
-- [ ] Update local git remotes for any repos previously pointing elsewhere
+- [x] Create `dime-ops` repo (see create-dime-ops-repo issue)
+- [x] Push `dime/` history to `github.com/ActsOfDefiance/dime` — local reset to origin/develop, now in sync
+- [x] Push `acts_of_defiance/` history to `github.com/ActsOfDefiance/acts-of-defiance`
+- [x] Push `compendium/` history to `github.com/ActsOfDefiance/compendium`
+- [x] Remove `acts_of_defiance.old/` — abandoned Django app, no value
+- [x] Run `dime-ops/setup/link.sh` to create symlinks in all repos
+- [x] Run `dime-ops/setup/doctor.sh` to verify everything is connected
+- [x] Update local git remotes for any repos previously pointing elsewhere
 
 ## Order
 

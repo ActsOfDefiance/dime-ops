@@ -75,13 +75,13 @@ ui-ci: ui-check ui-test
 
 # ── acts-of-defiance (site) ────────────────────────────────────────────────────
 
-# Start Hugo dev server
+# Start Astro dev server
 site-dev:
-    cd ../acts-of-defiance && hugo server
+    cd ../acts-of-defiance && bun run dev
 
 # Build site
 site-build:
-    cd ../acts-of-defiance && hugo --minify
+    cd ../acts-of-defiance && bun run build
 
 # ── cross-repo ─────────────────────────────────────────────────────────────────
 

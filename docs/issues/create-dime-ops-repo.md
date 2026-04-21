@@ -11,10 +11,10 @@ The command center and canonical context home for the ActsOfDefiance org. See `d
 ## Tasks
 
 ### Repo setup
-- [ ] Create repo at github.com/ActsOfDefiance/dime-ops
-- [ ] Set up Gitflow branch protection (main, develop protected)
-- [ ] Add LICENSE
-- [ ] Add `docs/memory/local_config.md` to `.gitignore` — this file holds machine-local values (GCP project ID, etc.) that must never be committed
+- [x] Create repo at github.com/ActsOfDefiance/dime-ops
+- [x] Set up Gitflow branch protection (main, develop protected)
+- [x] Add LICENSE (GPLv3)
+- [x] Add `docs/memory/local_config.md` to `.gitignore` — this file holds machine-local values (GCP project ID, etc.) that must never be committed
 
 ### Directory structure
 ```
@@ -48,7 +48,7 @@ Must be idempotent (safe to run multiple times).
 
 ### doctor.sh
 Checks:
-- [ ] All expected sibling repos are present
+- [x] All expected sibling repos are present
 - [ ] All symlinks exist and point to valid targets
 - [ ] Python version meets requirements
 - [ ] uv is installed

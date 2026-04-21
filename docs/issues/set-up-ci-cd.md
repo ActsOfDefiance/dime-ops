@@ -51,7 +51,7 @@ jobs:
 on: [push]  # dime publishes by pushing to this repo
 jobs:
   build:
-    - hugo --minify (or astro build)
+    - bun run build
     - Deploy to Cloud Storage + CDN (or Netlify/Vercel)
 ```
 

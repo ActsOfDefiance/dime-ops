@@ -22,8 +22,8 @@ Existing skills available: Python development, Next.js development. These need t
 - Patterns: SvelteKit routing, two-pane chat UI, WebSocket state management
 - Adapt from: existing Next.js skill (tooling differs significantly — Bun not Node)
 
-**`acts-of-defiance` layer (Hugo/Astro)**
-- Tools: Hugo CLI (now), Astro + bun (future, pending DECISION-003)
+**`acts-of-defiance` layer (Astro + Svelte 5)**
+- Tools: Astro + Bun
 - Patterns: content collections, markdown frontmatter, publishing adapter signals
 - New skill (no existing equivalent)
 

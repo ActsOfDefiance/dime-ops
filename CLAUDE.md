@@ -19,7 +19,7 @@ Read `docs/memory/MEMORY.md` at the start of every session to load project conte
 | `dime-ops` | Command center: specs, decisions, tooling | shell, just |
 | `dime` | Python backend: FastAPI API, ADK agents, pipeline | Python 3.13, uv, FastAPI, ADK |
 | `dime-ui` | Chat dashboard frontend | Svelte/SvelteKit, Bun |
-| `acts-of-defiance` | The publication | Hugo (evaluating Astro) |
+| `acts-of-defiance` | The publication | Astro + Svelte 5 |
 | `compendium` | Canonical article content | Markdown, GPLv3 |
 
 All repos are siblings locally:
@@ -67,7 +67,7 @@ Key docs:
 | Broker | Redis (pluggable) | RabbitMQ / GCP Pub/Sub via adapter |
 | Image generation | Imagen 3 | |
 | Image storage | GCS | Not git — images are artifacts |
-| SSG | Hugo → evaluating Astro | See DECISION-003 |
+| SSG | Astro + Svelte 5 | DECISION-003 settled |
 | Deployment | Cloud Run + Cloud Run Jobs | GCP, ~$25-30/month |
 | Observability | Logfire | Pending DECISION-007 |
 | Commands | just | Justfile in dime-ops root |
@@ -85,5 +85,5 @@ Key docs:
 | Architecture, decisions, epics | `dime-ops/` |
 | Python backend, agents, API | `dime/` |
 | Svelte frontend | `dime-ui/` |
-| Site, publishing, Hugo | `acts-of-defiance/` |
+| Site, publishing, Astro | `acts-of-defiance/` |
 | Article content | `compendium/` |

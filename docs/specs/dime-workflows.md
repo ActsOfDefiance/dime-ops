@@ -7,15 +7,16 @@ Workflow config is data, not code. Swapping from `solo` to `team` is a config ch
 ### `solo` (default)
 All checkpoints assigned to project owner. In-app notifications active for all background task events. Out-of-band notification adapter is opt-in (default: null).
 
-Setting `required: false` on any checkpoint causes dime to skip it and advance automatically — useful when you trust agent output for a stage.
+Setting `required: false` on any checkpoint causes dime to skip it and advance automatically — useful when you trust agent output for a stage. At every active checkpoint, the human can approve, retry (revise with feedback), or reject (restart from scratch with instructions).
 
 ### `team`
 ```
-research_review  → researcher role
-draft_review     → editor role
-art_review       → art_director role
-final_review     → editor role
-publish          → editor or admin required
+researching_review    → researcher role
+writing_review        → editor role
+art_briefing_review   → art_director role
+image_review          → art_director role
+final_review          → editor role
+publish               → editor or admin required
 ```
 Notifications on assignment, completion, and errors. Email adapter active by default.
 

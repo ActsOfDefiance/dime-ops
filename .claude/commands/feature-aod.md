@@ -1,0 +1,282 @@
+---
+name: feature-aod
+description: Execute feature development workflow for acts-of-defiance (Astro + Svelte 5 static site) with content publishing, theme development, and publishing adapter integration. Use when working on the publication site.
+allowed-tools: Read, Grep, Glob, Bash, Edit, Write, Task, AskUserQuestion, ToolSearch
+user-invocable: true
+---
+
+# Feature Development Workflow - acts-of-defiance (Astro + Svelte 5)
+
+**Repo**: acts-of-defiance (the publication)
+**Stack**: Astro + Svelte 5, Bun, TypeScript, Markdown
+**Note**: DECISION-003 settled — Astro + Svelte 5
+
+You are a feature development workflow orchestrator for the **acts-of-defiance** publication site. Guide developers through structured work on the static site — theme development, content templates, publishing adapter integration, and deployment.
+
+## Project Context
+
+- **Repo**: `ActsOfDefiance/acts-of-defiance`
+- **Stack**: Astro + Svelte 5, Bun, TypeScript
+- **Content source**: `compendium/` repo (Markdown articles, GPLv3)
+- **Image source**: GCS (images are artifacts, not in git)
+- **Publishing**: dime's PublishingAdapter signals article readiness
+- **Design standards**: Read `docs/specs/design-standards.md` — WCAG 2.2 AA compliance and performance requirements apply to all work
+- **Branch naming**: `feature/<brief-description>` (Gitflow)
+- **GitHub repo**: `ActsOfDefiance/acts-of-defiance` — all issue reads use `gh issue view`
+- **Issues**: GitHub is canonical; local `docs/issues/` is planning only
+
+## Astro Commands
+
+```bash
+# Development server
+bun run dev
+
+# Build
+bun run build
+
+# Preview production build
+bun run preview
+
+# Create new Astro project (if starting fresh)
+bun create astro
+```
+
+## Workflow Steps (EXECUTE IN ORDER)
+
+### Step 1: Load Issue & Confirm Requirements
+
+1. Ask user for the issue if not provided (accept a GitHub issue number or a filename)
+2. **Load from GitHub** — GitHub is canonical for active work:
+   ```bash
+   gh issue view {NUMBER} --repo ActsOfDefiance/acts-of-defiance
+   ```
+   - If the user gave a filename instead of a number, check the local file for a `GitHub: ActsOfDefiance/acts-of-defiance#{NUMBER}` annotation and use that number.
+   - If no GitHub issue exists yet (pre-promotion), fall back to reading the local `docs/issues/` file directly.
+3. For content/theme work, also check:
+   - `docs/specs/dime-overview.md` — publishing flow
+   - `docs/projects/acts-of-defiance/content-guide.md` — tone, audience, style
+4. Display issue summary:
+   - Title, description, acceptance criteria
+   - Labels (type, priority, domain, status)
+   - Dependencies and blockers
+5. Ask: "Ready to proceed? (yes/no)"
+6. **DO NOT proceed until user confirms**
+
+### Step 2: Create Feature Branch
+
+1. Ensure working directory is clean: `git status`
+2. Fetch latest: `git fetch origin`
+3. Create branch: `git checkout -b feature/<description> origin/develop`
+4. Confirm: `git branch --show-current`
+
+### Step 2.5: Load Project Context
+
+1. Read `CLAUDE.md` for site conventions
+2. Understand the Astro directory structure:
+   ```
+   acts-of-defiance/
+     src/
+       pages/             # File-based routing (.astro files)
+       components/        # Astro (.astro) and Svelte (.svelte) components
+       layouts/           # Page layouts
+       content/           # Content Collections (Markdown articles)
+       styles/            # Global styles
+     public/              # Static assets (fonts, favicons — served as-is)
+     astro.config.mjs     # Astro configuration
+     package.json         # Dependencies and scripts
+   ```
+3. Display: "Context loaded. Proceeding to planning..."
+
+### Step 3: Create Implementation Plan (APPROVAL REQUIRED)
+
+1. **Determine the type of work**:
+   - **Layout/components**: Changes to `src/layouts/`, `src/components/` (.astro and .svelte files)
+   - **Content**: Changes to `src/content/` (Content Collections, schema definitions)
+   - **Pages/routing**: Changes to `src/pages/` (file-based routing)
+   - **Publishing integration**: How dime's AstroAdapter signals content
+   - **Configuration**: `astro.config.mjs`, integrations, content collection schemas
+
+2. **Create detailed plan** including:
+   - Files to create/modify
+   - Component hierarchy (layouts → pages → components)
+   - Content Collection schema and frontmatter fields
+   - Astro/Svelte component split (static = .astro, interactive = .svelte)
+   - How this integrates with dime's AstroAdapter
+
+3. Present plan. Ask: "Approve? (yes/no/changes needed)"
+4. **DO NOT proceed until approved**
+
+### Step 4: Save Implementation Plan
+
+Write the approved plan using plan mode or to a local file.
+
+### Step 5: Begin Implementation
+
+1. **Follow the approved plan exactly**
+
+2. **Astro + Svelte 5 guidelines**:
+   - Use Astro components (.astro) for static content, Svelte components (.svelte) for interactive islands
+   - Configure site in `astro.config.mjs` (includes @astrojs/svelte integration)
+   - Use Content Collections with schema validation for article content
+   - Use Astro's built-in image optimization for responsive images
+   - Frontmatter: YAML in Markdown Content Collections
+   - Use file-based routing in `src/pages/`
+
+3. **Content guidelines** (from content-guide.md):
+   - Target audience: liberal adults 20-40
+   - Tone: informed, accessible, not academic
+   - All articles must have proper frontmatter
+
+4. **Keep user informed of progress**
+
+### Step 6: Build & Verify (QUALITY GATE)
+
+```bash
+# Build the site — Astro reports errors here
+bun run build
+
+# Run dev server and verify visually
+bun run dev
+```
+
+1. Fix all build errors
+2. **DO NOT proceed if build fails**
+3. Display: "Build succeeded. Verify visually at http://localhost:4321"
+
+### Step 7: Visual Verification (APPROVAL REQUIRED)
+
+1. Ask user to verify the changes visually at `http://localhost:4321`
+2. Ask: "Does the site look correct? (yes/no/changes needed)"
+3. **DO NOT proceed until approved**
+
+### Step 8: Write Commit Message (APPROVAL REQUIRED)
+
+Imperative mood, present tense:
+
+```
+Add [feature] to site
+
+- What: Summary of changes
+- Why: Purpose/goal
+
+Co-Authored-By: Claude Opus 4.6 (1M context) <noreply@anthropic.com>
+```
+
+Ask: "Approve this commit? (yes/no/edit)"
+**DO NOT commit until approved.**
+
+### Step 9: Create Pull Request
+
+1. Push: `git push -u origin $(git branch --show-current)`
+2. Create PR:
+   ```bash
+   gh pr create \
+     --title "Brief description" \
+     --body "$(cat <<'EOF'
+   ## Summary
+   [Brief description]
+
+   Closes #{ISSUE_NUMBER}
+
+   ## Changes
+   - Modified layout templates
+   - Updated frontmatter schema
+   - Added new shortcode
+
+   ## Verification
+   ```bash
+   bun run dev
+   # Navigate to [page] and verify [feature]
+   ```
+
+   ## Checklist
+   - [x] `bun run build` succeeds without errors
+   - [x] Visually verified at localhost:4321
+   - [x] Responsive design verified
+   - [x] Content guide followed (if content changes)
+   - [x] No secrets committed
+   EOF
+   )" \
+     --base develop
+   ```
+
+3. **ALWAYS display the PR URL.**
+
+### Step 10: PR Review Loop
+
+#### 10a. Poll for activity
+```bash
+bash .claude/tools/pr-poll.sh ActsOfDefiance/acts-of-defiance {PR_NUMBER}
+```
+
+#### 10b. Check for approval or changes requested
+
+- **APPROVED**: Skip to Step 11 (merge).
+- **CHANGES_REQUESTED** or new feedback: Continue to 10c.
+- **DISMISSED** or no actionable feedback: Resume polling (back to 10a).
+
+#### 10c. Read and summarize all new feedback
+
+```bash
+gh api repos/ActsOfDefiance/acts-of-defiance/pulls/{PR_NUMBER}/reviews \
+  --jq '.[] | "--- \(.user.login) (\(.submitted_at)) [state: \(.state)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/acts-of-defiance/pulls/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [path: \(.path):\(.line)] ---\n\(.body)\n"'
+gh api repos/ActsOfDefiance/acts-of-defiance/issues/{PR_NUMBER}/comments \
+  --jq '.[] | "--- \(.user.login) (\(.created_at)) [comment] ---\n\(.body)\n"'
+```
+
+Create an action plan. Ask: "Approve this plan to address review comments? (yes/no/changes needed)"
+**DO NOT implement until approved.**
+
+#### 10d. Implement fixes, rebuild, push
+
+1. Implement fixes
+2. Re-run `bun run build` — must succeed
+3. Commit and push
+4. Resolve review threads via GraphQL
+5. Go back to Step 10a
+
+### Step 11: Merge & Close Issue
+
+1. **Merge the PR**:
+   ```bash
+   gh pr merge [PR_NUMBER] --squash --delete-branch
+   ```
+
+2. **Close the GitHub issue**:
+   ```bash
+   gh issue close {ISSUE_NUMBER} --repo ActsOfDefiance/acts-of-defiance --comment "Completed in PR #[PR_NUMBER]."
+   ```
+
+3. **Mark the issue done in the local epic file** (`docs/issues/epic-acts-of-defiance.md`):
+   - Find the sub-issue line and change `- [ ]` to `- [x]`
+
+4. **Checkout develop**:
+   ```bash
+   git checkout develop
+   git pull origin develop
+   ```
+
+Display completion summary.
+
+## Workflow Enforcement Rules
+
+- **Never skip steps**
+- **Build must succeed before PR**
+- **Visual verification required** — static sites need human eyes
+- **Approval checkpoints require explicit yes**
+- **Content guide compliance** for any content changes
+- **If blocked**, ask for guidance
+
+## Publishing Adapter Integration
+
+The dime pipeline's PublishingAdapter signals article readiness:
+1. dime emits markdown + frontmatter to `compendium/`
+2. PublishingAdapter writes a signal file
+3. acts-of-defiance picks up content (manual or automated)
+4. Images are downloaded from GCS, not stored in git
+
+When working on publishing integration, consult:
+- `docs/specs/dime-pipeline.md` — publish state
+- `docs/specs/dime-architecture.md` — adapter pattern

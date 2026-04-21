@@ -10,20 +10,23 @@ A working content pipeline: from project creation through research, writing, art
 
 ## Sub-issues
 
-### Foundation (no dependencies on each other)
-- [ ] [implement-db-schema.md](implement-db-schema.md) — PostgreSQL tables: project, article, article_checkpoint, image_slot, image_variant, publish_event, user, role, workflow_config
-- [ ] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Hugo signal), NotificationAdapter
+### Prerequisites
+- [x] [configure-dime-project-deps.md](configure-dime-project-deps.md) — add SQLAlchemy, Alembic, FastAPI, Redis, pyright; run alembic init; scaffold package dirs
+
+### Foundation (depends on: configure-dime-project-deps)
+- [x] [implement-db-schema.md](implement-db-schema.md) — PostgreSQL tables: project, article, article_checkpoint, image_slot, image_variant, publish_event, user, role, workflow_config
+- [x] [implement-adapters.md](implement-adapters.md) — BrokerAdapter (Redis default), FileSystemAdapter (local + GCS), PublishingAdapter (Astro signal), NotificationAdapter
 
 ### API layer
-- [ ] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint
-- [ ] [implement-pipeline.md](implement-pipeline.md) — 11-state machine, human checkpoint gates, worker dispatch via broker
+- [x] [implement-api-layer.md](implement-api-layer.md) — FastAPI: project CRUD, article CRUD, pipeline state transitions, WebSocket push, content_guide endpoint
+- [ ] [implement-pipeline.md](implement-pipeline.md) — configurable checkpoint state machine (approve/retry/reject), revision states, worker dispatch via broker
 
 ### Agent layer (depends on: adapters + pipeline)
 - [ ] [write-agent-prompts.md](write-agent-prompts.md) — existing ticket; prompts for all 4 LLM agents
 - [ ] [implement-agents.md](implement-agents.md) — ADK LlmAgents (Research, Writer, ArtDirector, Image) + PublisherAgent; content_guide injection; tool implementations
 
 ### Publishing
-- [ ] [implement-hugo-adapter.md](implement-hugo-adapter.md) — PublishingAdapter for Hugo: markdown emit, frontmatter, signal file, GCS image download
+- [ ] [implement-astro-adapter.md](implement-astro-adapter.md) — PublishingAdapter for Astro: markdown emit, Content Collections frontmatter, signal file, GCS image download
 
 ### Decisions to resolve during this epic
 - [ ] DECISION-001: Article versioning strategy (git pointer vs DB snapshot) — resolve before implementing FileSystemAdapter
@@ -33,17 +36,17 @@ A working content pipeline: from project creation through research, writing, art
 ## Order
 
 ```
-implement-db-schema
-implement-adapters (BrokerAdapter + FileSystemAdapter first)
+implement-db-schema ✓
+implement-adapters ✓
     ↓
-implement-api-layer
-implement-pipeline
+implement-api-layer ✓
+implement-pipeline (configurable checkpoints, approve/retry/reject, revision states)
     ↓
 write-agent-prompts
     ↓
 implement-agents
     ↓
-implement-hugo-adapter
+implement-astro-adapter
 ```
 
 ## Definition of Done
@@ -52,7 +55,7 @@ implement-hugo-adapter
 - [ ] `uv run pyright` no errors
 - [ ] `uv run ruff check` clean
 - [ ] Pipeline can take an article from `queued` → `published` end-to-end locally
-- [ ] Hugo adapter emits valid markdown + frontmatter to compendium/
+- [ ] Astro adapter emits valid markdown + frontmatter to compendium/
 - [ ] All adapters injectable via config (no hardcoded Redis or filesystem paths)
 - [ ] content_guide data from project.content_guide injected into agent context
 - [ ] Human checkpoint gates actually block pipeline until approved via API

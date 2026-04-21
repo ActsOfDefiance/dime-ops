@@ -4,39 +4,36 @@
 **Priority:** medium
 **Repo:** acts-of-defiance
 **Epic:** epic-acts-of-defiance
-**Blocked by:** DECISION-003 (Hugo vs Astro)
 
-## If Hugo (current default)
+## Setup
 
-- [ ] Initialize Hugo site in `acts-of-defiance/` repo
-- [ ] Choose and configure base theme (or custom — TBD at time of work)
-- [ ] Configure `config.toml` / `hugo.toml`: site title, base URL, content structure
-- [ ] Content directory structure:
+- [ ] Initialize Astro project with Bun and Svelte 5 integration
+- [ ] Configure `astro.config.mjs`: site title, base URL, Svelte integration
+- [ ] Content collections for articles in `src/content/`
+- [ ] Directory structure:
   ```
-  content/
-    articles/       ← dime publishes here
-    about/
-  static/
+  src/
+    content/
+      articles/       ← dime publishes here
+      about/
+  public/
     images/
-      articles/     ← image files placed here by HugoAdapter
+      articles/       ← image files placed here by AstroAdapter
   ```
-- [ ] Local preview: `hugo server` works
-- [ ] `hugo --minify` build produces valid static site
+- [ ] Local preview: `bun run dev` works
+- [ ] `bun run build` produces valid static site
 
-## If Astro (if DECISION-003 goes that way)
+## Integration
 
-- [ ] Initialize Astro project with Bun
-- [ ] Content collections for articles
-- [ ] Equivalent directory structure for dime adapter compatibility
-- [ ] `bun run dev` and `bun run build` work
-
-## Both paths
-
-- [ ] Verify HugoAdapter (or equivalent) output is compatible with the chosen SSG's content structure
+- [ ] Verify AstroAdapter output is compatible with Astro content collection structure
 - [ ] At least one test article renders correctly end-to-end
-- [ ] `acts-of-defiance/` repo has its own CLAUDE.md with SSG-specific context
+- [ ] `acts-of-defiance/` repo has its own CLAUDE.md with Astro-specific context
 - [ ] CI: GitHub Actions builds the site on push to main
 
-## Note
+## Acceptance criteria
 
-If Astro migration is planned for the near term (per DECISION-003), invest minimal effort in Hugo theming — just enough to get dime publishing working. Don't over-invest in a theme that will be replaced.
+- [ ] `bun run dev` starts Astro dev server with no errors
+- [ ] `bun run build` produces a valid static site
+- [ ] Content collections schema validates article frontmatter
+- [ ] AstroAdapter-emitted markdown renders correctly in the built site
+- [ ] At least one test article visible in local dev server

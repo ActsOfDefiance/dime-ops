@@ -9,7 +9,7 @@
 
 The Package Dashboard is the `final_review` right-pane view. It gives the human a complete picture of the article package before approving publication: rendered content, all image slots at their target display dimensions, metadata, and action buttons.
 
-This is NOT a site preview (that would require a running Hugo server). It's an article package review — similar to a print proof.
+This is NOT a site preview (that would require a running Astro dev server). It's an article package review — similar to a print proof.
 
 ## Sections
 
@@ -40,7 +40,7 @@ This is NOT a site preview (that would require a running Hugo server). It's an a
 
 ## Notes
 
-If `PublishingAdapter.preview_url()` returns a URL (e.g., local Hugo server is running), show a "Preview on site" link as progressive enhancement. Don't require it.
+If `PublishingAdapter.preview_url()` returns a URL (e.g., local Astro dev server is running), show a "Preview on site" link as progressive enhancement. Don't require it.
 
 ## Acceptance criteria
 

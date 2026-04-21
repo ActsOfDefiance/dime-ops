@@ -31,6 +31,7 @@ Each agent receives only the tools relevant to its task. `ResearchAgent` has no 
 
 ## Task Lifecycle
 
+### First pass
 ```
 Broker dispatches: {"type": "research", "article_id": "..."}
   → Worker picks up task
@@ -38,11 +39,31 @@ Broker dispatches: {"type": "research", "article_id": "..."}
   → Streams progress events to broker → API → WebSocket → UI
   → Writes output to filesystem via FileSystemAdapter
   → Updates article state in DB
-  → Emits: {"article_id": "...", "state": "research_review"}
+  → Emits: {"article_id": "...", "state": "researching_review"}
   → Task complete. Worker exits.
 ```
 
-Human approves in UI → API dispatches next task → next agent runs.
+Human reviews → approve / retry / reject.
+
+### Revision (retry)
+```
+Broker dispatches: {"type": "research.revise", "article_id": "...", "feedback": "..."}
+  → Worker picks up task
+  → Agent runs with existing artifact + human feedback as context
+  → Agent modifies the artifact (not starting fresh)
+  → Updates article state → back to checkpoint
+```
+
+### Rejection (reject)
+```
+Broker dispatches: {"type": "research", "article_id": "...", "rejection": {"reasons": "...", "instructions": "..."}}
+  → Worker picks up task
+  → Agent runs fresh with rejection context
+  → Produces a new artifact from scratch
+  → Updates article state → back to checkpoint
+```
+
+All phases execute sequentially. Art briefing completes before image generation begins.
 
 ## Publishing Adapter Protocol
 
@@ -69,15 +90,15 @@ class PublishingAdapter(Protocol):
 - `schedule_at`: datetime — publish at a future time
 - `dry_run`: bool — validate without publishing
 
-Adapters registered by string key. `project.default_adapter = "hugo"`. Adding an adapter = one new file in `dime/adapters/`, no core changes.
+Adapters registered by string key. `project.default_adapter = "astro"`. Adding an adapter = one new file in `dime/adapters/`, no core changes.
 
-## HugoAdapter (first implementation)
+## AstroAdapter (first implementation)
 
-1. Copy `article.md` → `hugo_content_dir/posts/`
-2. Copy assets → `hugo_static_dir/images/{slug}/`
-3. Signal: `hugo --minify` (cli) / POST to webhook / call API endpoint
+1. Copy `article.md` → `src/content/posts/`
+2. Copy assets → `public/images/{slug}/`
+3. Signal: `astro build` (cli) / POST to webhook / call API endpoint
 4. Return `PublishResult(url, timestamp)`
-5. `preview_url()` → `http://localhost:1313/posts/{slug}` if dev server running, else `None`
+5. `preview_url()` → `http://localhost:4321/posts/{slug}` if dev server running, else `None`
 
 ## Scheduler
 
